@@ -12,17 +12,17 @@
 
 <style>
   :root{
-    --bg:#0B1120;
-    --bg-alt:#0F1729;
-    --surface:#141B2D;
-    --surface-hi:#1B2438;
-    --text:#E8ECF4;
-    --text-dim:#8B96AC;
-    --text-faint:#5B6478;
-    --accent-blue:#5B8DEF;
-    --accent-amber:#F2A93B;
-    --border:rgba(255,255,255,0.08);
-    --border-hi:rgba(255,255,255,0.16);
+    --bg:#FFFFFF;
+    --bg-alt:#FFFFFF;
+    --surface:#F5F7FA;
+    --surface-hi:#EDF1F7;
+    --text:#111418;
+    --text-dim:#4B5563;
+    --text-faint:#8A93A3;
+    --accent-blue:#1D5FD6;
+    --accent-amber:#B5690A;
+    --border:rgba(17,20,24,0.10);
+    --border-hi:rgba(17,20,24,0.18);
     --radius:10px;
     --font-display:'Space Grotesk', sans-serif;
     --font-body:'Inter', sans-serif;
@@ -68,7 +68,7 @@
     position:sticky;
     top:0;
     z-index:100;
-    background:rgba(11,17,32,0.92);
+    background:rgba(255,255,255,0.92);
     backdrop-filter:blur(10px);
     border-bottom:1px solid var(--border);
   }
@@ -155,6 +155,7 @@
     background:var(--bg-alt);
     overflow:hidden;
     position:relative;
+    box-shadow:0 4px 24px rgba(17,20,24,0.06);
   }
   .hero-canvas-wrap{
     position:relative;
@@ -197,8 +198,9 @@
     line-height:1.08;
     letter-spacing:-0.02em;
     margin-bottom:20px;
+    color:var(--accent-blue);
   }
-  .hero-content h1 .accent{ color:var(--accent-blue); }
+  .hero-content h1 .accent{ color:var(--text); }
   .hero-content p{
     color:var(--text-dim);
     font-size:1.05rem;
@@ -218,8 +220,8 @@
     align-items:center;
     gap:8px;
   }
-  .btn-primary{ background:var(--accent-blue); color:#0B1120; font-weight:600; }
-  .btn-primary:hover{ transform:translateY(-1px); background:#6f9cf2; }
+  .btn-primary{ background:var(--accent-blue); color:#FFFFFF; font-weight:600; }
+  .btn-primary:hover{ transform:translateY(-1px); background:#164FB5; }
   .btn-ghost{ border-color:var(--border-hi); color:var(--text); }
   .btn-ghost:hover{ border-color:var(--accent-amber); color:var(--accent-amber); }
 
@@ -240,12 +242,14 @@
     border-radius:0 0 var(--radius) var(--radius);
     background:var(--bg-alt);
     padding:44px 48px;
+    box-shadow:0 4px 24px rgba(17,20,24,0.05);
   }
   .section-title{
     font-family:var(--font-display);
     font-size:1.8rem;
     font-weight:600;
     margin-bottom:10px;
+    color:var(--accent-blue);
   }
   .section-sub{
     color:var(--text-dim);
@@ -282,6 +286,40 @@
   .chip:hover{ border-color:var(--accent-blue); color:var(--text); transform:translateY(-1px); }
 
   /* ---------- PROJECTS ---------- */
+  .filter-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    margin-bottom:28px;
+  }
+  .filter-btn{
+    font-family:var(--font-mono);
+    font-size:12.5px;
+    padding:9px 16px;
+    border:1px solid var(--border);
+    border-radius:20px;
+    background:var(--surface);
+    color:var(--text-dim);
+    cursor:pointer;
+    transition:border-color .15s ease, color .15s ease, background .15s ease;
+  }
+  .filter-btn:hover{ border-color:var(--border-hi); color:var(--text); }
+  .filter-btn.active{
+    background:var(--accent-blue);
+    border-color:var(--accent-blue);
+    color:#fff;
+  }
+  .project-card.is-hidden{ display:none; }
+  .cat-badge{
+    margin-left:auto;
+    font-family:var(--font-mono);
+    font-size:10px;
+    padding:2px 8px;
+    border-radius:10px;
+    background:rgba(29,95,214,0.10);
+    color:var(--accent-blue);
+    white-space:nowrap;
+  }
   .project-grid{
     display:grid;
     grid-template-columns:repeat(auto-fit, minmax(300px, 1fr));
@@ -294,9 +332,10 @@
     overflow:hidden;
     display:flex;
     flex-direction:column;
-    transition:border-color .18s ease, transform .18s ease;
+    transition:border-color .18s ease, transform .18s ease, box-shadow .18s ease;
+    box-shadow:0 2px 10px rgba(17,20,24,0.04);
   }
-  .project-card:hover{ border-color:var(--border-hi); transform:translateY(-3px); }
+  .project-card:hover{ border-color:var(--border-hi); transform:translateY(-3px); box-shadow:0 10px 24px rgba(17,20,24,0.08); }
   .project-card-head{
     display:flex;
     align-items:center;
@@ -317,6 +356,7 @@
     font-size:1.15rem;
     margin-bottom:10px;
     font-weight:600;
+    color:var(--accent-blue);
   }
   .project-card p{
     color:var(--text-dim);
@@ -348,9 +388,7 @@
 
   /* ---------- CONTACT ---------- */
   .contact-grid{
-    display:grid;
-    grid-template-columns:1.1fr 0.9fr;
-    gap:48px;
+    max-width:520px;
   }
   .contact-lead p{ color:var(--text-dim); margin-bottom:28px; }
   .contact-links{ display:flex; flex-direction:column; gap:14px; }
@@ -369,33 +407,6 @@
   .contact-link:hover{ border-color:var(--accent-blue); background:var(--surface); }
   .contact-link svg{ width:17px; height:17px; color:var(--accent-blue); flex-shrink:0; }
 
-  .contact-form{ display:flex; flex-direction:column; gap:14px; }
-  .contact-form label{
-    font-family:var(--font-mono);
-    font-size:11.5px;
-    color:var(--text-faint);
-    text-transform:uppercase;
-    letter-spacing:0.05em;
-    margin-bottom:6px;
-    display:block;
-  }
-  .contact-form input, .contact-form textarea{
-    width:100%;
-    background:var(--surface);
-    border:1px solid var(--border);
-    border-radius:6px;
-    padding:11px 13px;
-    color:var(--text);
-    font-family:var(--font-body);
-    font-size:14px;
-    resize:vertical;
-  }
-  .contact-form input:focus, .contact-form textarea:focus{
-    outline:none;
-    border-color:var(--accent-blue);
-  }
-  .contact-form textarea{ min-height:110px; }
-
   footer{
     padding:36px 0 48px;
     text-align:center;
@@ -408,7 +419,6 @@
     .wrap{ padding:0 18px; }
     .hero-content{ padding:40px 26px; }
     .panel-body{ padding:32px 26px; }
-    .contact-grid{ grid-template-columns:1fr; }
     .hero-stats{ gap:22px; }
   }
 </style>
@@ -528,11 +538,19 @@
     </div>
     <div class="panel-body">
       <h2 class="section-title">Selected projects</h2>
-      <p class="section-sub">A few things I've built and shipped. Swap in your own repos, descriptions, and links.</p>
+      <p class="section-sub">Work spans three areas of the data lifecycle — modeling, analysis, and visual reporting. Filter by category or browse all.</p>
+
+      <div class="filter-row" role="tablist" aria-label="Filter projects by category">
+        <button class="filter-btn active" data-filter="all" role="tab" aria-selected="true">All projects</button>
+        <button class="filter-btn" data-filter="data-science" role="tab" aria-selected="false">Data Science</button>
+        <button class="filter-btn" data-filter="data-analysis" role="tab" aria-selected="false">Data Analysis</button>
+        <button class="filter-btn" data-filter="data-visualization" role="tab" aria-selected="false">Data Visualization</button>
+      </div>
+
       <div class="project-grid">
 
-        <article class="project-card">
-          <div class="project-card-head"><i></i><i></i><i></i>churn_predictor.ipynb</div>
+        <article class="project-card" data-category="data-science">
+          <div class="project-card-head"><i></i><i></i><i></i>churn_predictor.ipynb<span class="cat-badge">Data Science</span></div>
           <div class="project-card-body">
             <h3>Customer Churn Predictor</h3>
             <p>Gradient-boosted model predicting subscription churn 30 days out, with SHAP-based explanations for the retention team.</p>
@@ -550,8 +568,8 @@
           </div>
         </article>
 
-        <article class="project-card">
-          <div class="project-card-head"><i></i><i></i><i></i>sales_forecast.py</div>
+        <article class="project-card" data-category="data-science">
+          <div class="project-card-head"><i></i><i></i><i></i>sales_forecast.py<span class="cat-badge">Data Science</span></div>
           <div class="project-card-body">
             <h3>Time-Series Sales Forecasting</h3>
             <p>Hierarchical forecasting pipeline for a multi-region retail dataset, benchmarking Prophet against a custom LSTM.</p>
@@ -565,8 +583,8 @@
           </div>
         </article>
 
-        <article class="project-card">
-          <div class="project-card-head"><i></i><i></i><i></i>review_nlp.ipynb</div>
+        <article class="project-card" data-category="data-science">
+          <div class="project-card-head"><i></i><i></i><i></i>review_nlp.ipynb<span class="cat-badge">Data Science</span></div>
           <div class="project-card-body">
             <h3>Review Sentiment &amp; Topic Mining</h3>
             <p>Fine-tuned transformer for sentiment classification plus topic modeling to surface recurring product complaints.</p>
@@ -584,23 +602,8 @@
           </div>
         </article>
 
-        <article class="project-card">
-          <div class="project-card-head"><i></i><i></i><i></i>ab_test_engine.py</div>
-          <div class="project-card-body">
-            <h3>A/B Testing Framework</h3>
-            <p>Internal library for sequential experiment design with early-stopping rules, cutting average test runtime by 35%.</p>
-            <div class="tag-row"><span class="tag">Python</span><span class="tag">SciPy</span><span class="tag">Bayesian</span></div>
-            <div class="project-links">
-              <a href="https://github.com/yourusername/ab-test-engine" target="_blank" rel="noopener">
-                <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8a8 8 0 0 0 5.47 7.59c.4.07.55-.17.55-.38v-1.49c-2.22.48-2.69-1.07-2.69-1.07-.36-.92-.89-1.16-.89-1.16-.72-.5.06-.49.06-.49.8.06 1.22.82 1.22.82.71 1.22 1.87.87 2.33.66.07-.52.28-.87.5-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.03 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.28.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.2c0 .21.15.46.55.38A8 8 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
-                Code
-              </a>
-            </div>
-          </div>
-        </article>
-
-        <article class="project-card">
-          <div class="project-card-head"><i></i><i></i><i></i>fraud_detect.py</div>
+        <article class="project-card" data-category="data-science">
+          <div class="project-card-head"><i></i><i></i><i></i>fraud_detect.py<span class="cat-badge">Data Science</span></div>
           <div class="project-card-body">
             <h3>Real-Time Fraud Detection</h3>
             <p>Streaming anomaly detection on transaction data using an isolation forest ensemble, deployed behind a low-latency API.</p>
@@ -614,8 +617,87 @@
           </div>
         </article>
 
-        <article class="project-card">
-          <div class="project-card-head"><i></i><i></i><i></i>dashboard.tsx</div>
+        <article class="project-card" data-category="data-analysis">
+          <div class="project-card-head"><i></i><i></i><i></i>retail_analysis.sql<span class="cat-badge">Data Analysis</span></div>
+          <div class="project-card-body">
+            <h3>Retail Sales &amp; Basket Analysis</h3>
+            <p>SQL-driven cohort and market-basket analysis across a multi-store retailer, identifying which categories drive repeat visits and cross-sell lift.</p>
+            <div class="tag-row"><span class="tag">SQL</span><span class="tag">Excel</span><span class="tag">pandas</span></div>
+            <div class="project-links">
+              <a href="https://github.com/yourusername/retail-sales-analysis" target="_blank" rel="noopener">
+                <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8a8 8 0 0 0 5.47 7.59c.4.07.55-.17.55-.38v-1.49c-2.22.48-2.69-1.07-2.69-1.07-.36-.92-.89-1.16-.89-1.16-.72-.5.06-.49.06-.49.8.06 1.22.82 1.22.82.71 1.22 1.87.87 2.33.66.07-.52.28-.87.5-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.03 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.28.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.2c0 .21.15.46.55.38A8 8 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+                Code
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <article class="project-card" data-category="data-analysis">
+          <div class="project-card-head"><i></i><i></i><i></i>hr_attrition_study.xlsx<span class="cat-badge">Data Analysis</span></div>
+          <div class="project-card-body">
+            <h3>HR Attrition Study</h3>
+            <p>Statistical analysis of employee attrition drivers using survey and HRIS data, presented to leadership with concrete retention recommendations.</p>
+            <div class="tag-row"><span class="tag">Excel</span><span class="tag">Python</span><span class="tag">Statistics</span></div>
+            <div class="project-links">
+              <a href="https://github.com/yourusername/hr-attrition-study" target="_blank" rel="noopener">
+                <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8a8 8 0 0 0 5.47 7.59c.4.07.55-.17.55-.38v-1.49c-2.22.48-2.69-1.07-2.69-1.07-.36-.92-.89-1.16-.89-1.16-.72-.5.06-.49.06-.49.8.06 1.22.82 1.22.82.71 1.22 1.87.87 2.33.66.07-.52.28-.87.5-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.03 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.28.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.2c0 .21.15.46.55.38A8 8 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+                Code
+              </a>
+              <a href="#" target="_blank" rel="noopener">
+                <svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v1.69a.75.75 0 0 0 1.5 0v-3.5a.75.75 0 0 0-.75-.75h-3.5a.75.75 0 0 0 0 1.5h1.69L6.22 8.72zM3.5 3A1.5 1.5 0 0 0 2 4.5v8A1.5 1.5 0 0 0 3.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-3a.75.75 0 0 0-1.5 0v3a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-8a.5.5 0 0 1 .5-.5h3a.75.75 0 0 0 0-1.5h-3z"/></svg>
+                Write-up
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <article class="project-card" data-category="data-analysis">
+          <div class="project-card-head"><i></i><i></i><i></i>campaign_analysis.py<span class="cat-badge">Data Analysis</span></div>
+          <div class="project-card-body">
+            <h3>Marketing Campaign Analysis</h3>
+            <p>Post-campaign analysis of conversion lift across channels, isolating the true effect of a discount promotion from seasonal noise.</p>
+            <div class="tag-row"><span class="tag">SQL</span><span class="tag">A/B Testing</span><span class="tag">pandas</span></div>
+            <div class="project-links">
+              <a href="https://github.com/yourusername/campaign-analysis" target="_blank" rel="noopener">
+                <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8a8 8 0 0 0 5.47 7.59c.4.07.55-.17.55-.38v-1.49c-2.22.48-2.69-1.07-2.69-1.07-.36-.92-.89-1.16-.89-1.16-.72-.5.06-.49.06-.49.8.06 1.22.82 1.22.82.71 1.22 1.87.87 2.33.66.07-.52.28-.87.5-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.03 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.28.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.2c0 .21.15.46.55.38A8 8 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+                Code
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <article class="project-card" data-category="data-visualization">
+          <div class="project-card-head"><i></i><i></i><i></i>sales_report.pbix<span class="cat-badge">Data Visualization</span></div>
+          <div class="project-card-body">
+            <h3>Sales Performance Dashboard</h3>
+            <p>Executive Power BI dashboard tracking revenue, margin, and regional performance with drill-through by product line and live refresh from SQL.</p>
+            <div class="tag-row"><span class="tag">Power BI</span><span class="tag">DAX</span><span class="tag">SQL</span></div>
+            <div class="project-links">
+              <a href="#" target="_blank" rel="noopener">
+                <svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v1.69a.75.75 0 0 0 1.5 0v-3.5a.75.75 0 0 0-.75-.75h-3.5a.75.75 0 0 0 0 1.5h1.69L6.22 8.72zM3.5 3A1.5 1.5 0 0 0 2 4.5v8A1.5 1.5 0 0 0 3.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-3a.75.75 0 0 0-1.5 0v3a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-8a.5.5 0 0 1 .5-.5h3a.75.75 0 0 0 0-1.5h-3z"/></svg>
+                View report
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <article class="project-card" data-category="data-visualization">
+          <div class="project-card-head"><i></i><i></i><i></i>health_tracker.twbx<span class="cat-badge">Data Visualization</span></div>
+          <div class="project-card-body">
+            <h3>Public Health Tracker</h3>
+            <p>Tableau dashboard visualizing regional health trends over time with dynamic filters, published to Tableau Public for open access.</p>
+            <div class="tag-row"><span class="tag">Tableau</span><span class="tag">Public data</span><span class="tag">ETL</span></div>
+            <div class="project-links">
+              <a href="#" target="_blank" rel="noopener">
+                <svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v1.69a.75.75 0 0 0 1.5 0v-3.5a.75.75 0 0 0-.75-.75h-3.5a.75.75 0 0 0 0 1.5h1.69L6.22 8.72zM3.5 3A1.5 1.5 0 0 0 2 4.5v8A1.5 1.5 0 0 0 3.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-3a.75.75 0 0 0-1.5 0v3a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-8a.5.5 0 0 1 .5-.5h3a.75.75 0 0 0 0-1.5h-3z"/></svg>
+                View on Tableau Public
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <article class="project-card" data-category="data-visualization">
+          <div class="project-card-head"><i></i><i></i><i></i>dashboard.tsx<span class="cat-badge">Data Visualization</span></div>
           <div class="project-card-body">
             <h3>Executive Metrics Dashboard</h3>
             <p>Interactive Plotly/Dash dashboard unifying product, revenue, and cohort metrics for weekly leadership reviews.</p>
@@ -667,21 +749,6 @@
           </div>
         </div>
 
-        <form class="contact-form" action="mailto:jordan.reyes@example.com" method="post" enctype="text/plain">
-          <div>
-            <label for="name">Name</label>
-            <input type="text" id="name" name="name" placeholder="Your name" required>
-          </div>
-          <div>
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" placeholder="you@example.com" required>
-          </div>
-          <div>
-            <label for="message">Message</label>
-            <textarea id="message" name="message" placeholder="What are you working on?" required></textarea>
-          </div>
-          <button type="submit" class="btn btn-primary" style="align-self:flex-start;">Send message</button>
-        </form>
       </div>
     </div>
   </div>
@@ -692,6 +759,26 @@
 </footer>
 
 <script>
+  // ---- Project category filtering ----
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  const projectCards = document.querySelectorAll('.project-card');
+
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const filter = btn.dataset.filter;
+
+      filterBtns.forEach(b => {
+        b.classList.toggle('active', b === btn);
+        b.setAttribute('aria-selected', b === btn ? 'true' : 'false');
+      });
+
+      projectCards.forEach(card => {
+        const match = filter === 'all' || card.dataset.category === filter;
+        card.classList.toggle('is-hidden', !match);
+      });
+    });
+  });
+
   // ---- Active tab highlighting on scroll ----
   const tabs = document.querySelectorAll('.tab');
   const sections = Array.from(tabs).map(t => document.getElementById(t.dataset.target));
@@ -734,7 +821,7 @@
       points.push({
         x, y: Math.max(20, Math.min(h - 20, y)),
         r: (1.5 + Math.random() * 2.2) * devicePixelRatio,
-        color: Math.random() > 0.72 ? '#F2A93B' : '#5B8DEF',
+        color: Math.random() > 0.72 ? '#B5690A' : '#1D5FD6',
         drawn: false,
         delay: i * 35
       });
@@ -750,7 +837,7 @@
     ctx.clearRect(0, 0, w, h);
 
     // faint grid
-    ctx.strokeStyle = 'rgba(255,255,255,0.05)';
+    ctx.strokeStyle = 'rgba(17,20,24,0.06)';
     ctx.lineWidth = 1;
     const gridStep = 48 * devicePixelRatio;
     for (let x = 0; x < w; x += gridStep) {
@@ -785,7 +872,7 @@
       ctx.beginPath();
       ctx.moveTo(x1, y1);
       ctx.lineTo(cx, cy);
-      ctx.strokeStyle = 'rgba(232,236,244,0.55)';
+      ctx.strokeStyle = 'rgba(17,20,24,0.4)';
       ctx.lineWidth = 2 * devicePixelRatio;
       ctx.stroke();
     }
