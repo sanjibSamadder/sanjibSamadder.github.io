@@ -14,13 +14,14 @@
 
 I'm a data analyst and data scientist with around nine years of experience across finance, manufacturing and research consultancy, and a freelancer on Upwork. This site brings together selected projects, my technical stack and contact details in one place.
 
-Each section is styled as a file in a code editor (`hero.py`, `skills.py`, `projects.py`, `contact.py`), and each project card looks like a notebook or script window.
+Each section is styled as a file in a code editor (`hero.py`, `about.md`, `experience.log`, `projects.py`, `skills.py`, `contact.py`), and each project card looks like a notebook or script window.
 
 ## Features
 
 - **IDE-style layout**: sticky tab bar, window-chrome section headers and monospaced typography.
 - **Animated hero**: a `<canvas>` scatter plot with a regression line that draws itself on load.
-- **Filterable project gallery**: switch between *Data Science*, *Data Analysis* and *Data Visualization* without a page reload.
+- **Filterable project gallery**: switch between *Machine Learning*, *Data Analysis*, *Dashboards* and *Statistics (R)* without a page reload.
+- **Image lightbox**: click any project screenshot to enlarge it.
 - **Scroll-aware navigation**: the active tab updates as you scroll (via `IntersectionObserver`).
 - **Responsive**: works from large desktop screens down to phones.
 - **Accessible**: visible focus states, ARIA roles on the filter tabs and `prefers-reduced-motion` support.
@@ -41,6 +42,7 @@ Each section is styled as a file in a code editor (`hero.py`, `skills.py`, `proj
 ```
 .
 ├── index.html      # The entire site: markup, styles and scripts
+├── assets/         # Profile photo and project screenshots
 └── README.md
 ```
 
@@ -80,7 +82,7 @@ python -m http.server 8000
 
 **Adding a project:** copy an existing `<article class="project-card">` block inside the project grid and update:
 
-1. `data-category`: one of `data-science`, `data-analysis` or `data-visualization`
+1. `data-category`: one of `data-science`, `data-analysis`, `data-visualization` or `statistics`
 2. The filename and category badge in `.project-card-head`
 3. The title, description, tags and links
 
@@ -100,10 +102,16 @@ If a deployment fails with an infrastructure or runner error rather than a probl
 
 | Project | Category | Tools |
 | --- | --- | --- |
-| [Customer Segmentation: K-Means vs. DBSCAN vs. GMM](https://github.com/sanjibSamadder/customer-segmentation-kmeans-dbscan-gmm) | Data Science | scikit-learn, PCA |
-| [Lead & Income Predictor](https://github.com/sanjibSamadder/ml-lead-income-cost-prediction) | Data Science | Python, gradient boosting, Streamlit |
-| [COVID-19 Chest X-Ray Classification](https://github.com/sanjibSamadder/COVID-19-Chest-X-Ray-Classification-Dese-CNN-Deep-CNN-RNN) | Data Science | Keras, neural networks |
-| [Retail Sales & Basket Analysis](https://github.com/sanjibSamadder/sql-retail-basket-analysis) | Data Analysis | SQL, Excel, Python |
+| [Lead & Income Predictor](https://github.com/sanjibSamadder/ml-lead-income-cost-prediction) | Machine Learning | scikit-learn, gradient boosting, Streamlit |
+| [COVID-19 Chest X-Ray Classification](https://github.com/sanjibSamadder/COVID-19-Chest-X-Ray-Classification-Dese-CNN-Deep-CNN-RNN) | Machine Learning | TensorFlow / Keras, CNN, LSTM |
+| [Customer Segmentation: K-Means vs. DBSCAN vs. GMM](https://github.com/sanjibSamadder/customer-segmentation-kmeans-dbscan-gmm) | Machine Learning | scikit-learn, PCA |
+| [Retail Sales & Basket Analysis](https://github.com/sanjibSamadder/sql-retail-basket-analysis) | Data Analysis | PostgreSQL, pandas |
+| [Lead Margin Forecast & What-If Model](https://github.com/sanjibSamadder/lead-margin-forecast-whatif-excel) | Data Analysis | Excel, forecasting |
+| [Card Processing Performance Dashboard](https://github.com/sanjibSamadder/everyday-thai-card-processing-powerbi) | Dashboard | Power BI, DAX |
+| [Lead Performance Dashboard](https://github.com/sanjibSamadder/lead-performance-dashboard-excel) | Dashboard | Excel |
+| [Darwin Sea-Level Pressure FDA](https://github.com/sanjibSamadder/darwin_slp_fda) | Statistics | R, fda |
+| [Improving Clustering Quality with PCA](https://github.com/sanjibSamadder/improving-clustering-quality-with-pca) | Statistics | R, PCA, K-Means |
+| [Australian Breast Cancer Rates FDA](https://github.com/sanjibSamadder/Cancer_Rate_Functional_Analysis) | Statistics | R, functional regression |
 
 See the [live site](https://sanjibsamadder.github.io) for the full gallery.
 

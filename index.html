@@ -4,7 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Sanjib Samadder — The Storyteller</title>
-<meta name="description" content="Portfolio of Sanjib Samadder, Data Scientist — machine learning, statistical modeling, and data storytelling.">
+<meta name="description" content="Portfolio of Sanjib Samadder: data scientist and analyst. Machine learning, SQL, Excel and Power BI projects, each with real results.">
+<meta property="og:title" content="Sanjib Samadder — Data Scientist &amp; Analyst">
+<meta property="og:description" content="Machine learning, SQL, Excel and Power BI projects, each with real results.">
+<meta property="og:image" content="assets/profile.jpg">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,14 +16,16 @@
 <style>
   :root{
     --bg:#FFFFFF;
-    --bg-alt:#FFFFFF;
     --surface:#F5F7FA;
     --surface-hi:#EDF1F7;
     --text:#111418;
     --text-dim:#4B5563;
-    --text-faint:#8A93A3;
+    --text-faint:#7A8494;
     --accent-blue:#1D5FD6;
+    --accent-blue-soft:rgba(29,95,214,0.10);
     --accent-amber:#B5690A;
+    --accent-amber-soft:rgba(181,105,10,0.10);
+    --green:#1F8A5B;
     --border:rgba(17,20,24,0.10);
     --border-hi:rgba(17,20,24,0.18);
     --radius:10px;
@@ -30,14 +35,11 @@
   }
 
   *{ margin:0; padding:0; box-sizing:border-box; }
-
   html{ scroll-behavior:smooth; }
-
   @media (prefers-reduced-motion: reduce){
     html{ scroll-behavior:auto; }
     *{ animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important; }
   }
-
   body{
     background:var(--bg);
     color:var(--text);
@@ -45,381 +47,369 @@
     line-height:1.6;
     -webkit-font-smoothing:antialiased;
   }
-
   a{ color:inherit; text-decoration:none; }
   ul{ list-style:none; }
   img{ max-width:100%; display:block; }
-
   ::selection{ background:var(--accent-blue); color:#fff; }
+  :focus-visible{ outline:2px solid var(--accent-amber); outline-offset:3px; }
 
-  :focus-visible{
-    outline:2px solid var(--accent-amber);
-    outline-offset:3px;
-  }
-
-  .wrap{
-    max-width:1120px;
-    margin:0 auto;
-    padding:0 32px;
-  }
+  .wrap{ max-width:1120px; margin:0 auto; padding:0 32px; }
 
   /* ---------- TAB NAV ---------- */
   .tabbar{
-    position:sticky;
-    top:0;
-    z-index:100;
+    position:sticky; top:0; z-index:100;
     background:rgba(255,255,255,0.92);
     backdrop-filter:blur(10px);
     border-bottom:1px solid var(--border);
   }
   .tabbar-inner{
-    max-width:1120px;
-    margin:0 auto;
-    padding:0 24px;
-    display:flex;
-    align-items:center;
-    gap:2px;
-    overflow-x:auto;
+    max-width:1120px; margin:0 auto; padding:0 24px;
+    display:flex; align-items:center; gap:2px; overflow-x:auto;
+    scrollbar-width:none;
   }
+  .tabbar-inner::-webkit-scrollbar{ display:none; }
   .tab-brand{
-    font-family:var(--font-mono);
-    font-size:13px;
-    color:var(--accent-amber);
-    padding:14px 18px 14px 4px;
-    white-space:nowrap;
-    flex-shrink:0;
+    font-family:var(--font-mono); font-size:13px; color:var(--accent-amber);
+    padding:14px 18px 14px 4px; white-space:nowrap; flex-shrink:0;
   }
   .tab-brand span{ color:var(--text-faint); }
   .tab{
-    font-family:var(--font-mono);
-    font-size:13px;
-    color:var(--text-dim);
-    padding:14px 16px;
-    white-space:nowrap;
-    border-right:1px solid var(--border);
-    display:flex;
-    align-items:center;
-    gap:8px;
-    cursor:pointer;
+    font-family:var(--font-mono); font-size:13px; color:var(--text-dim);
+    padding:14px 16px; white-space:nowrap; border-right:1px solid var(--border);
+    display:flex; align-items:center; gap:8px; cursor:pointer;
     transition:color .15s ease, background .15s ease;
-    position:relative;
-    flex-shrink:0;
+    position:relative; flex-shrink:0;
   }
-  .tab:hover{ color:var(--text); background:rgba(255,255,255,0.03); }
-  .tab .dot{
-    width:6px; height:6px; border-radius:50%;
-    background:var(--text-faint);
-    flex-shrink:0;
-  }
+  .tab:hover{ color:var(--text); background:var(--surface); }
+  .tab .dot{ width:6px; height:6px; border-radius:50%; background:var(--text-faint); flex-shrink:0; }
   .tab.active{ color:var(--text); background:var(--surface); }
   .tab.active .dot{ background:var(--accent-blue); }
   .tab.active::after{
-    content:'';
-    position:absolute;
-    left:0; right:0; bottom:-1px;
-    height:2px;
-    background:var(--accent-blue);
+    content:''; position:absolute; left:0; right:0; bottom:-1px; height:2px; background:var(--accent-blue);
   }
+  .tab-cta{
+    margin-left:auto; flex-shrink:0;
+    font-family:var(--font-mono); font-size:12.5px;
+    padding:7px 14px; border-radius:6px;
+    background:var(--accent-blue); color:#fff; white-space:nowrap;
+  }
+  .tab-cta:hover{ background:#164FB5; }
 
-  /* ---------- FILE HEADER (section signature) ---------- */
+  /* ---------- FILE HEADER ---------- */
   .file-header{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    padding:10px 18px;
-    background:var(--surface);
-    border:1px solid var(--border);
-    border-bottom:none;
+    display:flex; align-items:center; gap:10px; padding:10px 18px;
+    background:var(--surface); border:1px solid var(--border); border-bottom:none;
     border-radius:var(--radius) var(--radius) 0 0;
-    font-family:var(--font-mono);
-    font-size:12.5px;
-    color:var(--text-dim);
+    font-family:var(--font-mono); font-size:12.5px; color:var(--text-dim);
   }
-  .file-header .traffic{ display:flex; gap:6px; margin-right:4px; }
-  .file-header .traffic i{
-    width:9px; height:9px; border-radius:50%; display:block;
-  }
-  .file-header .traffic i:nth-child(1){ background:#e0605a; }
-  .file-header .traffic i:nth-child(2){ background:#e0a95a; }
-  .file-header .traffic i:nth-child(3){ background:#5ac48a; }
+  .traffic{ display:flex; gap:6px; margin-right:4px; }
+  .traffic i{ width:9px; height:9px; border-radius:50%; display:block; }
+  .traffic i:nth-child(1){ background:#e0605a; }
+  .traffic i:nth-child(2){ background:#e0a95a; }
+  .traffic i:nth-child(3){ background:#5ac48a; }
   .file-header .filename{ color:var(--text); }
-  .file-header .path{ color:var(--text-faint); margin-left:auto; }
+  .file-header .path{ color:var(--text-faint); margin-left:auto; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 
   section{ scroll-margin-top:56px; }
 
   /* ---------- HERO ---------- */
-  .hero-section{ padding:64px 0 40px; }
+  .hero-section{ padding:56px 0 32px; }
   .hero-panel{
     border:1px solid var(--border);
-    border-radius:0 var(--radius) var(--radius) var(--radius);
-    background:var(--bg-alt);
-    overflow:hidden;
-    position:relative;
+    border-radius:0 0 var(--radius) var(--radius);
+    background:var(--bg); overflow:hidden; position:relative;
     box-shadow:0 4px 24px rgba(17,20,24,0.06);
   }
   .hero-canvas-wrap{
-    position:relative;
-    min-height:420px;
-    display:flex;
-    align-items:center;
+    position:relative; min-height:460px;
+    display:grid; grid-template-columns:1fr auto; align-items:center; gap:24px;
+    padding:56px 56px 52px 48px;
   }
-  #plotCanvas{
-    position:absolute;
-    inset:0;
-    width:100%;
-    height:100%;
-    opacity:0.55;
-  }
-  .hero-content{
-    position:relative;
-    z-index:2;
-    padding:56px 48px;
-    max-width:680px;
-  }
+  #plotCanvas{ position:absolute; inset:0; width:100%; height:100%; opacity:0.5; }
+  .hero-content{ position:relative; z-index:2; max-width:640px; }
   .hero-eyebrow{
-    font-family:var(--font-mono);
-    font-size:13px;
-    color:var(--accent-amber);
-    letter-spacing:0.04em;
-    margin-bottom:18px;
-    display:flex;
-    align-items:center;
-    gap:10px;
+    font-family:var(--font-mono); font-size:13px; color:var(--accent-amber);
+    letter-spacing:0.04em; margin-bottom:18px; display:flex; align-items:center; gap:10px;
   }
-  .hero-eyebrow::before{
-    content:'';
-    width:22px; height:1px;
-    background:var(--accent-amber);
-  }
+  .hero-eyebrow::before{ content:''; width:22px; height:1px; background:var(--accent-amber); }
   .hero-content h1{
-    font-family:var(--font-display);
-    font-weight:700;
-    font-size:clamp(2.4rem, 5vw, 3.6rem);
-    line-height:1.08;
-    letter-spacing:-0.02em;
-    margin-bottom:20px;
-    color:var(--accent-blue);
+    font-family:var(--font-display); font-weight:700;
+    font-size:clamp(2.3rem, 5vw, 3.5rem); line-height:1.08; letter-spacing:-0.02em;
+    margin-bottom:20px; color:var(--accent-blue);
   }
   .hero-content h1 .accent{ color:var(--text); }
-  .hero-content p{
-    color:var(--text-dim);
-    font-size:1.05rem;
-    max-width:520px;
-    margin-bottom:32px;
+  .hero-content p.lead{ color:var(--text-dim); font-size:1.05rem; max-width:540px; margin-bottom:28px; }
+  .status-pill{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:var(--font-mono); font-size:12px; color:var(--green);
+    background:rgba(31,138,91,0.08); border:1px solid rgba(31,138,91,0.25);
+    padding:5px 12px; border-radius:20px; margin-bottom:22px;
   }
-  .hero-actions{ display:flex; gap:14px; flex-wrap:wrap; margin-bottom:30px; }
+  .status-pill::before{
+    content:''; width:7px; height:7px; border-radius:50%; background:var(--green);
+    box-shadow:0 0 0 0 rgba(31,138,91,0.5); animation:pulse 2s infinite;
+  }
+  @keyframes pulse{ 0%{box-shadow:0 0 0 0 rgba(31,138,91,0.45);} 70%{box-shadow:0 0 0 7px rgba(31,138,91,0);} 100%{box-shadow:0 0 0 0 rgba(31,138,91,0);} }
+  .hero-actions{ display:flex; gap:14px; flex-wrap:wrap; margin-bottom:34px; }
   .btn{
-    font-family:var(--font-mono);
-    font-size:13.5px;
-    padding:12px 22px;
-    border-radius:6px;
-    border:1px solid transparent;
-    cursor:pointer;
-    transition:transform .15s ease, background .15s ease, border-color .15s ease;
-    display:inline-flex;
-    align-items:center;
-    gap:8px;
+    font-family:var(--font-mono); font-size:13.5px; padding:12px 22px; border-radius:6px;
+    border:1px solid transparent; cursor:pointer;
+    transition:transform .15s ease, background .15s ease, border-color .15s ease, color .15s ease;
+    display:inline-flex; align-items:center; gap:8px; background:none;
   }
   .btn-primary{ background:var(--accent-blue); color:#FFFFFF; font-weight:600; }
   .btn-primary:hover{ transform:translateY(-1px); background:#164FB5; }
-  .btn-ghost{ border-color:var(--border-hi); color:var(--text); }
+  .btn-ghost{ border-color:var(--border-hi); color:var(--text); background:rgba(255,255,255,0.8); }
   .btn-ghost:hover{ border-color:var(--accent-amber); color:var(--accent-amber); }
-
-  .hero-stats{
-    display:flex;
-    gap:32px;
-    font-family:var(--font-mono);
-    flex-wrap:wrap;
-  }
+  .hero-stats{ display:flex; gap:34px; font-family:var(--font-mono); flex-wrap:wrap; }
   .hero-stats div{ display:flex; flex-direction:column; gap:4px; }
-  .hero-stats .num{ font-size:1.4rem; color:var(--text); font-weight:600; }
-  .hero-stats .lbl{ font-size:11.5px; color:var(--text-faint); text-transform:uppercase; letter-spacing:0.05em; }
+  .hero-stats .num{ font-size:1.45rem; color:var(--text); font-weight:600; }
+  .hero-stats .lbl{ font-size:11px; color:var(--text-faint); text-transform:uppercase; letter-spacing:0.05em; }
+
+  .hero-photo{ position:relative; z-index:2; justify-self:end; }
+  .photo-frame{
+    width:250px; border:1px solid var(--border-hi); border-radius:var(--radius);
+    background:var(--bg); overflow:hidden; box-shadow:0 12px 32px rgba(17,20,24,0.12);
+  }
+  .photo-frame .bar{
+    display:flex; align-items:center; gap:6px; padding:8px 12px;
+    background:var(--surface); border-bottom:1px solid var(--border);
+    font-family:var(--font-mono); font-size:11px; color:var(--text-faint);
+  }
+  .photo-frame .bar i{ width:7px; height:7px; border-radius:50%; }
+  .photo-frame .bar i:nth-child(1){ background:#e0605a; }
+  .photo-frame .bar i:nth-child(2){ background:#e0a95a; }
+  .photo-frame .bar i:nth-child(3){ background:#5ac48a; }
+  .photo-frame img{ width:100%; height:auto; aspect-ratio:4/5; object-fit:cover; object-position:center 20%; }
+  .photo-caption{
+    font-family:var(--font-mono); font-size:11.5px; color:var(--text-dim);
+    padding:10px 12px; border-top:1px solid var(--border); line-height:1.5;
+  }
+  .photo-caption b{ color:var(--accent-blue); font-weight:500; }
 
   /* ---------- GENERIC SECTION ---------- */
-  .section-pad{ padding:40px 0; }
+  .section-pad{ padding:32px 0; }
   .panel-body{
-    border:1px solid var(--border);
-    border-radius:0 0 var(--radius) var(--radius);
-    background:var(--bg-alt);
-    padding:44px 48px;
-    box-shadow:0 4px 24px rgba(17,20,24,0.05);
+    border:1px solid var(--border); border-radius:0 0 var(--radius) var(--radius);
+    background:var(--bg); padding:44px 48px; box-shadow:0 4px 24px rgba(17,20,24,0.05);
   }
   .section-title{
-    font-family:var(--font-display);
-    font-size:1.8rem;
-    font-weight:600;
-    margin-bottom:10px;
-    color:var(--accent-blue);
+    font-family:var(--font-display); font-size:1.8rem; font-weight:600;
+    margin-bottom:10px; color:var(--accent-blue); letter-spacing:-0.01em;
   }
-  .section-sub{
-    color:var(--text-dim);
-    font-size:0.98rem;
-    max-width:560px;
-    margin-bottom:36px;
-  }
+  .section-sub{ color:var(--text-dim); font-size:0.98rem; max-width:600px; margin-bottom:36px; }
+  .comment{ font-family:var(--font-mono); font-size:12.5px; color:var(--text-faint); margin-bottom:8px; }
 
-  /* ---------- SKILLS ---------- */
-  .skill-groups{
-    display:grid;
-    grid-template-columns:repeat(auto-fit, minmax(230px, 1fr));
-    gap:28px;
+  /* ---------- ABOUT ---------- */
+  .about-grid > *, .contact-grid > *{ min-width:0; }
+  .about-grid{ display:grid; grid-template-columns:1.25fr 1fr; gap:44px; align-items:start; }
+  .about-text p{ color:var(--text-dim); margin-bottom:16px; font-size:0.99rem; }
+  .about-text p strong{ color:var(--text); font-weight:600; }
+  .code-block{
+    font-family:var(--font-mono); font-size:12.8px; line-height:1.8;
+    background:var(--surface); border:1px solid var(--border); border-radius:8px;
+    padding:20px 22px; color:var(--text-dim); overflow-x:auto;
   }
-  .skill-group-label{
-    font-family:var(--font-mono);
-    font-size:12px;
-    color:var(--accent-amber);
-    text-transform:uppercase;
-    letter-spacing:0.06em;
-    margin-bottom:14px;
+  .code-block .k{ color:var(--accent-blue); }
+  .code-block .s{ color:var(--green); }
+  .code-block .n{ color:var(--accent-amber); }
+  .code-block .c{ color:var(--text-faint); }
+
+  /* ---------- EXPERIENCE ---------- */
+  .timeline{ position:relative; padding-left:28px; }
+  .timeline::before{ content:''; position:absolute; left:6px; top:8px; bottom:8px; width:1px; background:var(--border-hi); }
+  .tl-item{ position:relative; padding-bottom:30px; }
+  .tl-item:last-child{ padding-bottom:0; }
+  .tl-item::before{
+    content:''; position:absolute; left:-27px; top:7px; width:11px; height:11px; border-radius:50%;
+    background:var(--bg); border:2px solid var(--accent-blue);
   }
-  .chip-row{ display:flex; flex-wrap:wrap; gap:8px; }
-  .chip{
-    font-family:var(--font-mono);
-    font-size:12.5px;
-    padding:7px 12px;
-    border:1px solid var(--border);
-    border-radius:6px;
-    background:var(--surface);
-    color:var(--text-dim);
-    transition:border-color .15s ease, color .15s ease, transform .15s ease;
+  .tl-item.now::before{ background:var(--accent-blue); }
+  .tl-meta{
+    font-family:var(--font-mono); font-size:12px; color:var(--accent-amber);
+    margin-bottom:4px; display:flex; gap:10px; flex-wrap:wrap; align-items:center;
   }
-  .chip:hover{ border-color:var(--accent-blue); color:var(--text); transform:translateY(-1px); }
+  .tl-meta .badge{
+    font-size:10.5px; padding:1px 8px; border-radius:10px;
+    background:var(--accent-blue-soft); color:var(--accent-blue);
+  }
+  .tl-item h3{ font-family:var(--font-display); font-size:1.1rem; font-weight:600; margin-bottom:2px; }
+  .tl-item h3 span{ color:var(--text-faint); font-weight:500; }
+  .tl-item p{ color:var(--text-dim); font-size:0.93rem; max-width:760px; }
+
+  .cred-row{
+    display:grid; grid-template-columns:repeat(auto-fit, minmax(230px, 1fr)); gap:16px;
+    margin-top:40px; padding-top:32px; border-top:1px dashed var(--border-hi);
+  }
+  .cred{ border:1px solid var(--border); border-radius:8px; padding:16px 18px; background:var(--surface); }
+  .cred .lbl{ font-family:var(--font-mono); font-size:11px; color:var(--accent-amber); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:6px; }
+  .cred .val{ font-family:var(--font-display); font-weight:600; font-size:1rem; margin-bottom:2px; }
+  .cred .sub{ font-size:0.86rem; color:var(--text-dim); }
 
   /* ---------- PROJECTS ---------- */
-  .filter-row{
-    display:flex;
-    flex-wrap:wrap;
-    gap:10px;
-    margin-bottom:28px;
-  }
+  .filter-row{ display:flex; flex-wrap:wrap; gap:10px; margin-bottom:28px; }
   .filter-btn{
-    font-family:var(--font-mono);
-    font-size:12.5px;
-    padding:9px 16px;
-    border:1px solid var(--border);
-    border-radius:20px;
-    background:var(--surface);
-    color:var(--text-dim);
-    cursor:pointer;
+    font-family:var(--font-mono); font-size:12.5px; padding:9px 16px;
+    border:1px solid var(--border); border-radius:20px; background:var(--surface);
+    color:var(--text-dim); cursor:pointer;
     transition:border-color .15s ease, color .15s ease, background .15s ease;
   }
+  .filter-btn .count{ color:var(--text-faint); margin-left:4px; }
   .filter-btn:hover{ border-color:var(--border-hi); color:var(--text); }
-  .filter-btn.active{
-    background:var(--accent-blue);
-    border-color:var(--accent-blue);
-    color:#fff;
-  }
-  .project-card.is-hidden{ display:none; }
-  .cat-badge{
-    margin-left:auto;
-    font-family:var(--font-mono);
-    font-size:10px;
-    padding:2px 8px;
-    border-radius:10px;
-    background:rgba(29,95,214,0.10);
-    color:var(--accent-blue);
-    white-space:nowrap;
-  }
-  .project-grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit, minmax(300px, 1fr));
-    gap:24px;
-  }
+  .filter-btn.active{ background:var(--accent-blue); border-color:var(--accent-blue); color:#fff; }
+  .filter-btn.active .count{ color:rgba(255,255,255,0.75); }
+
+  .project-grid{ display:grid; grid-template-columns:repeat(auto-fill, minmax(320px, 1fr)); gap:24px; }
   .project-card{
-    border:1px solid var(--border);
-    border-radius:var(--radius);
-    background:var(--surface);
-    overflow:hidden;
-    display:flex;
-    flex-direction:column;
+    border:1px solid var(--border); border-radius:var(--radius); background:var(--surface);
+    overflow:hidden; display:flex; flex-direction:column;
     transition:border-color .18s ease, transform .18s ease, box-shadow .18s ease;
     box-shadow:0 2px 10px rgba(17,20,24,0.04);
   }
   .project-card:hover{ border-color:var(--border-hi); transform:translateY(-3px); box-shadow:0 10px 24px rgba(17,20,24,0.08); }
+  .project-card.is-hidden{ display:none; }
+  .project-card.featured{ grid-column:1 / -1; flex-direction:row; }
+  .project-card.featured .thumb{ flex:0 0 48%; aspect-ratio:auto; border-bottom:none; border-right:1px solid var(--border); }
+  .project-card.featured .thumb img{ height:100%; object-fit:contain; background:#fff; }
+  .project-card.featured .card-main{ flex:1; }
+  .card-main{ display:flex; flex-direction:column; flex:1; }
   .project-card-head{
-    display:flex;
-    align-items:center;
-    gap:6px;
-    padding:10px 14px;
+    display:flex; align-items:center; gap:6px; padding:10px 14px;
     border-bottom:1px solid var(--border);
-    font-family:var(--font-mono);
-    font-size:11.5px;
-    color:var(--text-faint);
+    font-family:var(--font-mono); font-size:11.5px; color:var(--text-faint);
   }
-  .project-card-head i{ width:8px; height:8px; border-radius:50%; }
+  .project-card-head i{ width:8px; height:8px; border-radius:50%; flex-shrink:0; }
   .project-card-head i:nth-child(1){ background:#e0605a; }
   .project-card-head i:nth-child(2){ background:#e0a95a; }
   .project-card-head i:nth-child(3){ background:#5ac48a; }
+  .project-card-head .fname{ margin-left:4px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .cat-badge{
+    margin-left:auto; font-family:var(--font-mono); font-size:10px; padding:2px 8px;
+    border-radius:10px; background:var(--accent-blue-soft); color:var(--accent-blue); white-space:nowrap;
+  }
+  .thumb{
+    display:block; width:100%; aspect-ratio:16/8; overflow:hidden; background:#fff;
+    border-bottom:1px solid var(--border); cursor:zoom-in; position:relative; padding:0; border-top:none; border-left:none; border-right:none;
+  }
+  .thumb img{ width:100%; height:100%; object-fit:cover; object-position:top center; transition:transform .35s ease; }
+  .project-card:hover .thumb img{ transform:scale(1.03); }
+  .thumb .zoom{
+    position:absolute; right:10px; bottom:10px; font-family:var(--font-mono); font-size:10.5px;
+    background:rgba(17,20,24,0.72); color:#fff; padding:3px 8px; border-radius:4px;
+    opacity:0; transition:opacity .2s ease;
+  }
+  .project-card:hover .thumb .zoom, .thumb:focus-visible .zoom{ opacity:1; }
   .project-card-body{ padding:22px 22px 24px; flex:1; display:flex; flex-direction:column; }
   .project-card h3{
-    font-family:var(--font-display);
-    font-size:1.15rem;
-    margin-bottom:10px;
-    font-weight:600;
-    color:var(--accent-blue);
+    font-family:var(--font-display); font-size:1.15rem; margin-bottom:10px;
+    font-weight:600; color:var(--accent-blue); line-height:1.3;
   }
-  .project-card p{
-    color:var(--text-dim);
-    font-size:0.92rem;
-    margin-bottom:18px;
-    flex:1;
+  .project-card.featured h3{ font-size:1.4rem; }
+  .project-card p{ color:var(--text-dim); font-size:0.92rem; margin-bottom:16px; }
+  .result{
+    font-family:var(--font-mono); font-size:12px; line-height:1.55;
+    background:var(--bg); border:1px solid var(--border); border-left:3px solid var(--accent-amber);
+    border-radius:6px; padding:10px 12px; margin-bottom:16px; color:var(--text-dim);
   }
+  .result b{ color:var(--text); font-weight:600; }
+  .result .arrow{ color:var(--accent-amber); }
+  .metric-row{ display:flex; gap:22px; flex-wrap:wrap; margin-bottom:18px; }
+  .metric{ display:flex; flex-direction:column; }
+  .metric .v{ font-family:var(--font-display); font-weight:700; font-size:1.5rem; color:var(--text); line-height:1.1; }
+  .metric .l{ font-family:var(--font-mono); font-size:10.5px; color:var(--text-faint); text-transform:uppercase; letter-spacing:0.05em; }
+  .spacer{ flex:1; }
   .tag-row{ display:flex; flex-wrap:wrap; gap:6px; margin-bottom:18px; }
   .tag{
-    font-family:var(--font-mono);
-    font-size:10.5px;
-    padding:3px 8px;
-    border-radius:4px;
-    background:rgba(91,141,239,0.12);
-    color:var(--accent-blue);
+    font-family:var(--font-mono); font-size:10.5px; padding:3px 8px; border-radius:4px;
+    background:var(--accent-blue-soft); color:var(--accent-blue);
   }
-  .project-links{ display:flex; gap:16px; }
+  .project-links{ display:flex; gap:18px; flex-wrap:wrap; }
   .project-links a{
-    font-family:var(--font-mono);
-    font-size:12px;
-    color:var(--text-dim);
-    display:flex;
-    align-items:center;
-    gap:6px;
-    transition:color .15s ease;
+    font-family:var(--font-mono); font-size:12px; color:var(--text-dim);
+    display:flex; align-items:center; gap:6px; transition:color .15s ease;
   }
   .project-links a:hover{ color:var(--accent-amber); }
   .project-links svg{ width:14px; height:14px; }
+  .more-row{ margin-top:28px; text-align:center; }
+
+  /* ---------- SKILLS ---------- */
+  .skill-groups{ display:grid; grid-template-columns:repeat(auto-fit, minmax(230px, 1fr)); gap:28px; }
+  .skill-group-label{
+    font-family:var(--font-mono); font-size:12px; color:var(--accent-amber);
+    text-transform:uppercase; letter-spacing:0.06em; margin-bottom:14px;
+  }
+  .chip-row{ display:flex; flex-wrap:wrap; gap:8px; }
+  .chip{
+    font-family:var(--font-mono); font-size:12.5px; padding:7px 12px;
+    border:1px solid var(--border); border-radius:6px; background:var(--surface); color:var(--text-dim);
+    transition:border-color .15s ease, color .15s ease, transform .15s ease;
+  }
+  .chip:hover{ border-color:var(--accent-blue); color:var(--text); transform:translateY(-1px); }
 
   /* ---------- CONTACT ---------- */
-  .contact-grid{
-    max-width:520px;
-  }
-  .contact-lead p{ color:var(--text-dim); margin-bottom:28px; }
-  .contact-links{ display:flex; flex-direction:column; gap:14px; }
+  .contact-grid{ display:grid; grid-template-columns:1fr 1fr; gap:44px; align-items:start; }
+  .contact-lead p{ color:var(--text-dim); margin-bottom:24px; }
+  .contact-links{ display:flex; flex-direction:column; gap:12px; }
   .contact-link{
-    display:flex;
-    align-items:center;
-    gap:12px;
-    font-family:var(--font-mono);
-    font-size:13.5px;
-    color:var(--text);
-    padding:12px 14px;
-    border:1px solid var(--border);
-    border-radius:8px;
+    display:flex; align-items:center; gap:12px; font-family:var(--font-mono); font-size:13.5px;
+    color:var(--text); padding:12px 14px; border:1px solid var(--border); border-radius:8px;
     transition:border-color .15s ease, background .15s ease;
   }
   .contact-link:hover{ border-color:var(--accent-blue); background:var(--surface); }
   .contact-link svg{ width:17px; height:17px; color:var(--accent-blue); flex-shrink:0; }
+  .terminal{
+    background:#111418; color:#D6DCE5; border-radius:8px; padding:20px 22px;
+    font-family:var(--font-mono); font-size:12.8px; line-height:1.85; overflow-x:auto;
+  }
+  .terminal .p{ color:#E0A95A; }
+  .terminal .o{ color:#8FB4F5; }
+  .terminal .g{ color:#5AC48A; }
+  .cursor{ display:inline-block; width:8px; height:15px; background:#D6DCE5; vertical-align:middle; animation:blink 1.1s steps(1) infinite; }
+  @keyframes blink{ 50%{ opacity:0; } }
 
-  footer{
-    padding:36px 0 48px;
-    text-align:center;
-    font-family:var(--font-mono);
-    font-size:12px;
-    color:var(--text-faint);
+  footer{ padding:36px 0 48px; text-align:center; font-family:var(--font-mono); font-size:12px; color:var(--text-faint); }
+
+  /* ---------- LIGHTBOX ---------- */
+  .lightbox{
+    position:fixed; inset:0; z-index:200; background:rgba(17,20,24,0.86);
+    display:none; align-items:center; justify-content:center; padding:32px;
+  }
+  .lightbox.open{ display:flex; }
+  .lightbox figure{ max-width:min(1200px, 100%); max-height:100%; display:flex; flex-direction:column; gap:10px; }
+  .lightbox img{ max-height:calc(100vh - 120px); width:auto; margin:0 auto; border-radius:8px; background:#fff; }
+  .lightbox figcaption{ color:#D6DCE5; font-family:var(--font-mono); font-size:12.5px; text-align:center; }
+  .lightbox-close{
+    position:absolute; top:16px; right:20px; background:none; border:1px solid rgba(255,255,255,0.3);
+    color:#fff; font-family:var(--font-mono); font-size:13px; padding:6px 12px; border-radius:6px; cursor:pointer;
   }
 
+  /* ---------- REVEAL ---------- */
+  .reveal{ opacity:0; transform:translateY(14px); transition:opacity .6s ease, transform .6s ease; }
+  .reveal.in{ opacity:1; transform:none; }
+
+  @media (max-width: 900px){
+    .hero-canvas-wrap{ grid-template-columns:1fr; padding:44px 32px; }
+    .hero-photo{ justify-self:start; order:-1; }
+    .photo-frame{ width:170px; }
+    .about-grid, .contact-grid{ grid-template-columns:1fr; gap:32px; }
+    .project-card.featured{ flex-direction:column; }
+    .project-card.featured .thumb{ flex:none; aspect-ratio:16/8; border-right:none; border-bottom:1px solid var(--border); }
+  }
   @media (max-width: 760px){
-    .wrap{ padding:0 18px; }
-    .hero-content{ padding:40px 26px; }
-    .panel-body{ padding:32px 26px; }
+    .wrap{ padding:0 16px; }
+    .hero-canvas-wrap{ padding:32px 22px; }
+    .panel-body{ padding:30px 22px; }
     .hero-stats{ gap:22px; }
+    .project-grid{ grid-template-columns:1fr; }
+    .file-header .path{ display:none; }
+    .tab-cta{ display:none; }
+    .hero-photo{ width:100%; }
+    .photo-frame{ width:100%; display:grid; grid-template-columns:110px 1fr; grid-template-rows:auto 1fr; }
+    .photo-frame .bar{ grid-column:1 / -1; }
+    .photo-frame img{ grid-row:2; }
+    .photo-caption{ border-top:none; border-left:1px solid var(--border); display:flex; flex-direction:column; justify-content:center; font-size:12px; }
+    .hero-stats{ display:grid; grid-template-columns:1fr 1fr; gap:20px 18px; }
+    .status-pill{ font-size:11px; }
   }
 </style>
 </head>
@@ -430,9 +420,12 @@
   <div class="tabbar-inner">
     <div class="tab-brand">~/portfolio <span>$</span></div>
     <a class="tab active" data-target="hero" href="#hero"><span class="dot"></span>hero.py</a>
-    <a class="tab" data-target="skills" href="#skills"><span class="dot"></span>skills.py</a>
+    <a class="tab" data-target="about" href="#about"><span class="dot"></span>about.md</a>
+    <a class="tab" data-target="experience" href="#experience"><span class="dot"></span>experience.log</a>
     <a class="tab" data-target="projects" href="#projects"><span class="dot"></span>projects.py</a>
+    <a class="tab" data-target="skills" href="#skills"><span class="dot"></span>skills.py</a>
     <a class="tab" data-target="contact" href="#contact"><span class="dot"></span>contact.py</a>
+    <a class="tab-cta" href="mailto:skilled.sanjib@gmail.com">hire_me()</a>
   </div>
 </nav>
 
@@ -448,17 +441,26 @@
       <div class="hero-canvas-wrap">
         <canvas id="plotCanvas" aria-hidden="true"></canvas>
         <div class="hero-content">
+          <div class="status-pill">Open to Data Scientist / ML placements · 2027</div>
           <div class="hero-eyebrow">fit(model, data) → converged</div>
-          <h1>Sanjib Samadder<br>use data<span class="accent"> to find story behind it.</span></h1>
-          <p>Data Scientist focused on predictive modeling, experimentation, and turning messy datasets into decisions people can act on. Currently exploring causal inference and applied NLP.</p>
+          <h1>Sanjib Samadder<br><span class="accent">uses data to find the story behind it.</span></h1>
+          <p class="lead">Data scientist and analyst with 9+ years of turning messy, real-world data into models, dashboards and decisions. Currently an MSc Data Science student at the University of Leicester and a Research Assistant at SAFE Technologia.</p>
           <div class="hero-actions">
             <a class="btn btn-primary" href="#projects">View projects</a>
             <a class="btn btn-ghost" href="#contact">Get in touch</a>
           </div>
           <div class="hero-stats">
-            <div><span class="num">130+</span><span class="lbl">Freelance Project Completed </span></div>
-            <div><span class="num">12</span><span class="lbl">Published notebooks</span></div>
-            <div><span class="num">10yrs</span><span class="lbl">In production ML</span></div>
+            <div><span class="num" data-count="9" data-suffix="+">9+</span><span class="lbl">Years in data</span></div>
+            <div><span class="num" data-count="100" data-suffix="+">100+</span><span class="lbl">Freelance projects</span></div>
+            <div><span class="num">5.0★</span><span class="lbl">Upwork · Top Rated Plus</span></div>
+            <div><span class="num" data-count="1">1</span><span class="lbl">Journal publication</span></div>
+          </div>
+        </div>
+        <div class="hero-photo">
+          <div class="photo-frame">
+            <div class="bar"><i></i><i></i><i></i>&nbsp;profile.jpg</div>
+            <img src="assets/profile.jpg" alt="Portrait of Sanjib Samadder" width="600" height="800">
+            <div class="photo-caption"><b>location</b> = "UK"<br><b>role</b> = "Data Scientist"</div>
           </div>
         </div>
       </div>
@@ -466,62 +468,92 @@
   </div>
 </section>
 
-<!-- ============ SKILLS ============ -->
-<section id="skills" class="section-pad">
+<!-- ============ ABOUT ============ -->
+<section id="about" class="section-pad reveal">
   <div class="wrap">
     <div class="file-header">
       <div class="traffic"><i></i><i></i><i></i></div>
-      <span class="filename">skills.py</span>
-      <span class="path">import stack</span>
+      <span class="filename">about.md</span>
+      <span class="path">cat README.md</span>
     </div>
     <div class="panel-body">
-      <h2 class="section-title">Skills &amp; stack</h2>
-      <p class="section-sub">The tools I reach for most, grouped by where they show up in a project's lifecycle.</p>
-      <div class="skill-groups">
-        <div>
-          <div class="skill-group-label">Languages</div>
-          <div class="chip-row">
-            <span class="chip">Python</span>
-            <span class="chip">SQL</span>
-            <span class="chip">R</span>
-            <span class="chip">Bash</span>
-          </div>
+      <div class="about-grid">
+        <div class="about-text">
+          <h2 class="section-title">About me</h2>
+          <p>I work with <strong>real-world, imperfect data</strong>: cleaning it, structuring it and turning it into something a business can act on. Over nine years I've done that in electronics retail, FMCG distribution, LPG supply, US real estate finance and, most recently, research and innovation consulting.</p>
+          <p>My work spans the whole lifecycle: <strong>SQL</strong> to pull and validate the data, <strong>Python and R</strong> to model it, and <strong>Excel and Power BI</strong> to put the answer in front of the people who need it. Every project below reports its results honestly, limitations included.</p>
+          <p>I'm now studying for an <strong>MSc in Data Science (with Industry Placement)</strong> at the University of Leicester and looking for a Data Scientist or ML placement starting in 2027.</p>
         </div>
         <div>
-          <div class="skill-group-label">Modeling &amp; ML</div>
-          <div class="chip-row">
-            <span class="chip">scikit-learn</span>
-            <span class="chip">PyTorch</span>
-            <span class="chip">XGBoost</span>
-            <span class="chip">statsmodels</span>
-          </div>
+          <div class="comment"># profile.py</div>
+<pre class="code-block"><span class="k">class</span> <span class="n">Sanjib</span>:
+    role      = <span class="s">"Data Scientist &amp; Analyst"</span>
+    based_in  = <span class="s">"United Kingdom"</span>
+    studying  = <span class="s">"MSc Data Science, Leicester"</span>
+    years     = <span class="n">9</span>
+    domains   = [<span class="s">"finance"</span>, <span class="s">"real estate"</span>,
+                 <span class="s">"retail"</span>, <span class="s">"research"</span>]
+    languages = [<span class="s">"Python"</span>, <span class="s">"SQL"</span>, <span class="s">"R"</span>]
+
+    <span class="k">def</span> <span class="n">approach</span>(self, data):
+        <span class="c"># clean → model → explain → ship</span>
+        <span class="k">return</span> <span class="s">"a decision, not just a chart"</span></pre>
         </div>
-        <div>
-          <div class="skill-group-label">Data &amp; pipelines</div>
-          <div class="chip-row">
-            <span class="chip">pandas</span>
-            <span class="chip">Spark</span>
-            <span class="chip">Airflow</span>
-            <span class="chip">dbt</span>
-          </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ EXPERIENCE ============ -->
+<section id="experience" class="section-pad reveal">
+  <div class="wrap">
+    <div class="file-header">
+      <div class="traffic"><i></i><i></i><i></i></div>
+      <span class="filename">experience.log</span>
+      <span class="path">git log --career</span>
+    </div>
+    <div class="panel-body">
+      <h2 class="section-title">Experience</h2>
+      <p class="section-sub">From retail and distribution analytics to real-estate finance and applied AI research.</p>
+
+      <div class="timeline">
+        <div class="tl-item now">
+          <div class="tl-meta">Jan 2026 – Present <span class="badge">current</span></div>
+          <h3>Research Assistant <span>· SAFE Technologia Ltd, Chelmsford (UK)</span></h3>
+          <p>Research and innovation consultancy. Data work on Innovate UK projects, including the RePack360 packaging data registers and taxonomy, UK innovation-funding analysis, and neuromorphic AI research (spiking neural networks, Bayesian optimisation and genetic algorithms for architecture search).</p>
         </div>
-        <div>
-          <div class="skill-group-label">Visualization</div>
-          <div class="chip-row">
-            <span class="chip">Matplotlib</span>
-            <span class="chip">Plotly</span>
-            <span class="chip">Tableau</span>
-            <span class="chip">D3.js</span>
-          </div>
+        <div class="tl-item">
+          <div class="tl-meta">2023 – 2025 · Remote</div>
+          <h3>Financial Data Analyst <span>· Boardwalk Wealth (US real estate)</span></h3>
+          <p>Built KPI frameworks and dashboards for a 15-property Chicago real estate portfolio, including DSCR tracking, chart-of-accounts structuring, SQL-based P&amp;L validation and cross-system reconciliation.</p>
         </div>
-        <div>
-          <div class="skill-group-label">MLOps &amp; infra</div>
-          <div class="chip-row">
-            <span class="chip">Docker</span>
-            <span class="chip">MLflow</span>
-            <span class="chip">AWS</span>
-            <span class="chip">Git</span>
-          </div>
+        <div class="tl-item">
+          <div class="tl-meta">Ongoing</div>
+          <h3>Freelance Data Analyst <span>· Upwork, Top Rated Plus</span></h3>
+          <p>100+ completed projects with a 5-star rating: Excel and Power BI dashboards, e-commerce reporting, data cleaning, forecasting and ML pipelines for clients across industries.</p>
+        </div>
+        <div class="tl-item">
+          <div class="tl-meta">2016 – 2023</div>
+          <h3>Data &amp; Business Analyst <span>· Samsung Electronics, Walton BD, Omera LPG</span></h3>
+          <p>Sales, stock and distribution analytics at scale: stock optimisation across 3,000+ stores at Walton and retail reporting on the SalesHawk platform covering 32,000 retail locations at Omera LPG.</p>
+        </div>
+      </div>
+
+      <div class="cred-row">
+        <div class="cred">
+          <div class="lbl">Education</div>
+          <div class="val">MSc Data Science</div>
+          <div class="sub">University of Leicester · with Industry Placement</div>
+        </div>
+        <div class="cred">
+          <div class="lbl">Publication</div>
+          <div class="val">NeuroOpti</div>
+          <div class="sub">Co-author · <em>Neurocomputing</em></div>
+        </div>
+        <div class="cred">
+          <div class="lbl">Certifications</div>
+          <div class="val">Google Advanced Data Analytics</div>
+          <div class="sub">+ Google Data Analytics, IBM, DataCamp, Macquarie</div>
         </div>
       </div>
     </div>
@@ -538,190 +570,248 @@
     </div>
     <div class="panel-body">
       <h2 class="section-title">Selected projects</h2>
-      <p class="section-sub">Work spans three areas of the data lifecycle — modeling, analysis, and visual reporting. Filter by category or browse all.</p>
+      <p class="section-sub">Each project comes from my GitHub and states its key result. Click an image to enlarge it, or filter by area.</p>
 
       <div class="filter-row" role="tablist" aria-label="Filter projects by category">
-        <button class="filter-btn active" data-filter="all" role="tab" aria-selected="true">All projects</button>
-        <button class="filter-btn" data-filter="data-science" role="tab" aria-selected="false">Data Science</button>
-        <button class="filter-btn" data-filter="data-analysis" role="tab" aria-selected="false">Data Analysis</button>
-        <button class="filter-btn" data-filter="data-visualization" role="tab" aria-selected="false">Data Visualization</button>
+        <button class="filter-btn active" data-filter="all" role="tab" aria-selected="true">All<span class="count"></span></button>
+        <button class="filter-btn" data-filter="data-science" role="tab" aria-selected="false">Machine Learning<span class="count"></span></button>
+        <button class="filter-btn" data-filter="data-analysis" role="tab" aria-selected="false">Data Analysis<span class="count"></span></button>
+        <button class="filter-btn" data-filter="data-visualization" role="tab" aria-selected="false">Dashboards<span class="count"></span></button>
+        <button class="filter-btn" data-filter="statistics" role="tab" aria-selected="false">Statistics (R)<span class="count"></span></button>
       </div>
 
       <div class="project-grid">
 
-        <article class="project-card" data-category="data-science">
-          <div class="project-card-head"><i></i><i></i><i></i>Cluster_Work.ipynb<span class="cat-badge">Data Science</span></div>
-          <div class="project-card-body">
-            <h3>Customer Segmentation: K-Means vs. DBSCAN vs. GMM</h3>
-            <p>Behavioral segmentation of ~9,000 credit card customers comparing three clustering algorithms, validated with multiple quality metrics and translated into risk and retention recommendations for a bank.</p>
-            <div class="tag-row"><span class="tag">Scikit-learn</span><span class="tag">PCA</span><span class="tag">Clustering</span></div>
-            <div class="project-links">
-              <a href="https://github.com/sanjibSamadder/customer-segmentation-kmeans-dbscan-gmm" target="_blank" rel="noopener">
-                <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8a8 8 0 0 0 5.47 7.59c.4.07.55-.17.55-.38v-1.49c-2.22.48-2.69-1.07-2.69-1.07-.36-.92-.89-1.16-.89-1.16-.72-.5.06-.49.06-.49.8.06 1.22.82 1.22.82.71 1.22 1.87.87 2.33.66.07-.52.28-.87.5-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.03 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.28.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.2c0 .21.15.46.55.38A8 8 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
-                Code
-              </a>
+        <!-- FEATURED -->
+        <article class="project-card featured" data-category="data-science">
+          <button class="thumb" data-full="assets/lead-predictor.jpg" data-caption="Lead & Income Predictor: architecture overview" aria-label="Enlarge image: Lead and Income Predictor">
+            <img src="assets/lead-predictor.jpg" alt="Lead and Income Predictor project banner"><span class="zoom">⤢ enlarge</span>
+          </button>
+          <div class="card-main">
+            <div class="project-card-head"><i></i><i></i><i></i><span class="fname">lead_prediction.py</span><span class="cat-badge">★ Featured · ML</span></div>
+            <div class="project-card-body">
+              <h3>Lead &amp; Income Predictor: Gradient Boosting + Streamlit App</h3>
+              <p>Predicts monthly leads, income and scrub cost for each partner and offer before money is committed, replacing gut-feel budgeting with a data-backed forecast. I compared seven models with cross-validation and deployed the winner as a live Streamlit app.</p>
+              <div class="metric-row">
+                <div class="metric"><span class="v">0.911</span><span class="l">CV R²</span></div>
+                <div class="metric"><span class="v">±0.017</span><span class="l">CV std</span></div>
+                <div class="metric"><span class="v">7</span><span class="l">Models compared</span></div>
+              </div>
+              <div class="spacer"></div>
+              <div class="tag-row"><span class="tag">scikit-learn</span><span class="tag">Gradient Boosting</span><span class="tag">XGBoost</span><span class="tag">Stacking</span><span class="tag">Streamlit</span></div>
+              <div class="project-links">
+                <a href="https://github.com/sanjibSamadder/ml-lead-income-cost-prediction" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8a8 8 0 0 0 5.47 7.59c.4.07.55-.17.55-.38v-1.49c-2.22.48-2.69-1.07-2.69-1.07-.36-.92-.89-1.16-.89-1.16-.72-.5.06-.49.06-.49.8.06 1.22.82 1.22.82.71 1.22 1.87.87 2.33.66.07-.52.28-.87.5-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.03 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.28.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.2c0 .21.15.46.55.38A8 8 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>Code</a>
+                <a href="https://ml-lead-income-cost-prediction-hgwny2t4lvp64uzfhamhmr.streamlit.app/" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v1.69a.75.75 0 0 0 1.5 0v-3.5a.75.75 0 0 0-.75-.75h-3.5a.75.75 0 0 0 0 1.5h1.69L6.22 8.72zM3.5 3A1.5 1.5 0 0 0 2 4.5v8A1.5 1.5 0 0 0 3.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-3a.75.75 0 0 0-1.5 0v3a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-8a.5.5 0 0 1 .5-.5h3a.75.75 0 0 0 0-1.5h-3z"/></svg>Live app</a>
+              </div>
             </div>
           </div>
         </article>
 
         <article class="project-card" data-category="data-science">
-          <div class="project-card-head"><i></i><i></i><i></i>lead_prediction.py<span class="cat-badge">Data Science</span></div>
+          <button class="thumb" data-full="assets/covid.jpg" data-caption="COVID-19 Chest X-Ray Classification" aria-label="Enlarge image: COVID-19 chest X-ray project">
+            <img src="assets/covid.jpg" alt="Chest X-ray classification banner"><span class="zoom">⤢ enlarge</span>
+          </button>
+          <div class="project-card-head"><i></i><i></i><i></i><span class="fname">chest_xray_cnn.ipynb</span><span class="cat-badge">Machine Learning</span></div>
           <div class="project-card-body">
-            <h3>Gradient boosting - Lead & Income Predictor</h3>
-            <p>A machine learning project that predicts monthly Leads, Sum Income, and Sum Scrub Cost for partner/offer combinations, based on historical performance data.</p>
-            <div class="tag-row"><span class="tag">Python</span><span class="tag">Supervised ML</span><span class="tag">Notebook</span></div>
+            <h3>COVID-19 Chest X-Ray Classification</h3>
+            <p>Four neural network architectures (Dense, CNN, Deep CNN and LSTM) trained under identical conditions to separate COVID-19, viral pneumonia and normal X-rays.</p>
+            <div class="result"><span class="arrow">→</span> A compact 3-block <b>CNN won with 90.91% test accuracy</b> and 17× fewer parameters than the Dense baseline. Adding depth made results worse.</div>
+            <div class="spacer"></div>
+            <div class="tag-row"><span class="tag">TensorFlow / Keras</span><span class="tag">CNN</span><span class="tag">LSTM</span></div>
             <div class="project-links">
-              <a href="https://github.com/sanjibSamadder/ml-lead-income-cost-prediction" target="_blank" rel="noopener">
-                <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8a8 8 0 0 0 5.47 7.59c.4.07.55-.17.55-.38v-1.49c-2.22.48-2.69-1.07-2.69-1.07-.36-.92-.89-1.16-.89-1.16-.72-.5.06-.49.06-.49.8.06 1.22.82 1.22.82.71 1.22 1.87.87 2.33.66.07-.52.28-.87.5-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.03 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.28.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.2c0 .21.15.46.55.38A8 8 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
-                Code
-              </a>
-              <a href="https://ml-lead-income-cost-prediction-hgwny2t4lvp64uzfhamhmr.streamlit.app/" target="_blank" rel="noopener">
-                <svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v1.69a.75.75 0 0 0 1.5 0v-3.5a.75.75 0 0 0-.75-.75h-3.5a.75.75 0 0 0 0 1.5h1.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H8A.75.75 0 0 0 8 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V8a.75.75 0 0 0-1.5 0v3.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg>
-                Live Demo
-              </a>
+              <a href="https://github.com/sanjibSamadder/COVID-19-Chest-X-Ray-Classification-Dese-CNN-Deep-CNN-RNN" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8a8 8 0 0 0 5.47 7.59c.4.07.55-.17.55-.38v-1.49c-2.22.48-2.69-1.07-2.69-1.07-.36-.92-.89-1.16-.89-1.16-.72-.5.06-.49.06-.49.8.06 1.22.82 1.22.82.71 1.22 1.87.87 2.33.66.07-.52.28-.87.5-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.03 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.28.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.2c0 .21.15.46.55.38A8 8 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>Code</a>
             </div>
           </div>
         </article>
 
         <article class="project-card" data-category="data-science">
-          <div class="project-card-head"><i></i><i></i><i></i>review_nlp.ipynb<span class="cat-badge">Data Science</span></div>
+          <button class="thumb" data-full="assets/segmentation.jpg" data-caption="Customer Segmentation: K-Means vs DBSCAN vs GMM" aria-label="Enlarge image: customer segmentation project">
+            <img src="assets/segmentation.jpg" alt="Customer segmentation banner"><span class="zoom">⤢ enlarge</span>
+          </button>
+          <div class="project-card-head"><i></i><i></i><i></i><span class="fname">Cluster_Work.ipynb</span><span class="cat-badge">Machine Learning</span></div>
           <div class="project-card-body">
-            <h3>COVID-19-Chest X-Ray Image Classification</h3>
-            <p>Built and benchmarked four architectures — CNN, Deep CNN, Dense, and RNN — to distinguish COVID-19, viral pneumonia, and normal lung scans, with the RNN model coming out on top for accuracy. Four models walked in, one model won.</p>
-            <div class="tag-row"><span class="tag">Python</span><span class="tag">Keras</span><span class="tag">Neural Networks</span></div>
+            <h3>Customer Segmentation: K-Means vs DBSCAN vs GMM</h3>
+            <p>Behavioural segmentation of ~9,000 credit card customers, with engineered ratio features and skew correction, turned into risk and retention actions for a bank.</p>
+            <div class="result"><span class="arrow">→</span> <b>K-Means (k=5) beat both alternatives</b> on silhouette, Davies-Bouldin and Calinski-Harabasz scores, with zero noise points.</div>
+            <div class="spacer"></div>
+            <div class="tag-row"><span class="tag">scikit-learn</span><span class="tag">PCA</span><span class="tag">Clustering</span></div>
             <div class="project-links">
-              <a href="https://github.com/sanjibSamadder/COVID-19-Chest-X-Ray-Classification-Dese-CNN-Deep-CNN-RNN" target="_blank" rel="noopener">
-                <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8a8 8 0 0 0 5.47 7.59c.4.07.55-.17.55-.38v-1.49c-2.22.48-2.69-1.07-2.69-1.07-.36-.92-.89-1.16-.89-1.16-.72-.5.06-.49.06-.49.8.06 1.22.82 1.22.82.71 1.22 1.87.87 2.33.66.07-.52.28-.87.5-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.03 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.28.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.2c0 .21.15.46.55.38A8 8 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
-                Code
-              </a>
-              <a href="#" target="_blank" rel="noopener">
-                <svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v1.69a.75.75 0 0 0 1.5 0v-3.5a.75.75 0 0 0-.75-.75h-3.5a.75.75 0 0 0 0 1.5h1.69L6.22 8.72zM3.5 3A1.5 1.5 0 0 0 2 4.5v8A1.5 1.5 0 0 0 3.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-3a.75.75 0 0 0-1.5 0v3a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-8a.5.5 0 0 1 .5-.5h3a.75.75 0 0 0 0-1.5h-3z"/></svg>
-                Write-up
-              </a>
-            </div>
-          </div>
-        </article>
-
-        <article class="project-card" data-category="data-science">
-          <div class="project-card-head"><i></i><i></i><i></i>fraud_detect.py<span class="cat-badge">Data Science</span></div>
-          <div class="project-card-body">
-            <h3>Real-Time Fraud Detection</h3>
-            <p>Streaming anomaly detection on transaction data using an isolation forest ensemble, deployed behind a low-latency API.</p>
-            <div class="tag-row"><span class="tag">Kafka</span><span class="tag">scikit-learn</span><span class="tag">FastAPI</span></div>
-            <div class="project-links">
-              <a href="https://github.com/yourusername/fraud-detection" target="_blank" rel="noopener">
-                <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8a8 8 0 0 0 5.47 7.59c.4.07.55-.17.55-.38v-1.49c-2.22.48-2.69-1.07-2.69-1.07-.36-.92-.89-1.16-.89-1.16-.72-.5.06-.49.06-.49.8.06 1.22.82 1.22.82.71 1.22 1.87.87 2.33.66.07-.52.28-.87.5-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.03 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.28.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.2c0 .21.15.46.55.38A8 8 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
-                Code
-              </a>
+              <a href="https://github.com/sanjibSamadder/customer-segmentation-kmeans-dbscan-gmm" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8a8 8 0 0 0 5.47 7.59c.4.07.55-.17.55-.38v-1.49c-2.22.48-2.69-1.07-2.69-1.07-.36-.92-.89-1.16-.89-1.16-.72-.5.06-.49.06-.49.8.06 1.22.82 1.22.82.71 1.22 1.87.87 2.33.66.07-.52.28-.87.5-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.03 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.28.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.2c0 .21.15.46.55.38A8 8 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>Code</a>
             </div>
           </div>
         </article>
 
         <article class="project-card" data-category="data-analysis">
-          <div class="project-card-head"><i></i><i></i><i></i>retail_analysis.sql<span class="cat-badge">Data Analysis</span></div>
+          <button class="thumb" data-full="assets/retail-basket.jpg" data-caption="Retail Sales & Basket Analysis (PostgreSQL)" aria-label="Enlarge image: retail basket analysis project">
+            <img src="assets/retail-basket.jpg" alt="Retail basket analysis banner"><span class="zoom">⤢ enlarge</span>
+          </button>
+          <div class="project-card-head"><i></i><i></i><i></i><span class="fname">basket_analysis.sql</span><span class="cat-badge">Data Analysis</span></div>
           <div class="project-card-body">
             <h3>Retail Sales &amp; Basket Analysis</h3>
-            <p>SQL-driven cohort and market-basket analysis across a multi-store retailer, identifying which categories drive repeat visits and cross-sell lift.</p>
-            <div class="tag-row"><span class="tag">SQL</span><span class="tag">Excel</span><span class="tag">Python</span></div>
+            <p>Cohort and market-basket analysis of 2.6M grocery transaction lines from 2,500 households, done entirely in PostgreSQL with CTEs and window functions.</p>
+            <div class="result"><span class="arrow">→</span> After adjusting for basket size, <b>pairs with lift above 1 fell from 96.5% to 44.9%</b>. Bread + milk drops to near-chance (1.07). Indexing cut a lookup from 328 ms to 0.19 ms.</div>
+            <div class="spacer"></div>
+            <div class="tag-row"><span class="tag">PostgreSQL</span><span class="tag">Window functions</span><span class="tag">pandas</span></div>
             <div class="project-links">
-              <a href="https://github.com/sanjibSamadder/sql-retail-basket-analysis" target="_blank" rel="noopener">
-                <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8a8 8 0 0 0 5.47 7.59c.4.07.55-.17.55-.38v-1.49c-2.22.48-2.69-1.07-2.69-1.07-.36-.92-.89-1.16-.89-1.16-.72-.5.06-.49.06-.49.8.06 1.22.82 1.22.82.71 1.22 1.87.87 2.33.66.07-.52.28-.87.5-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.03 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.28.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.2c0 .21.15.46.55.38A8 8 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
-                Code
-              </a>
+              <a href="https://github.com/sanjibSamadder/sql-retail-basket-analysis" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8a8 8 0 0 0 5.47 7.59c.4.07.55-.17.55-.38v-1.49c-2.22.48-2.69-1.07-2.69-1.07-.36-.92-.89-1.16-.89-1.16-.72-.5.06-.49.06-.49.8.06 1.22.82 1.22.82.71 1.22 1.87.87 2.33.66.07-.52.28-.87.5-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.03 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.28.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.2c0 .21.15.46.55.38A8 8 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>Code</a>
             </div>
           </div>
         </article>
 
         <article class="project-card" data-category="data-analysis">
-  <div class="project-card-head"><i></i><i></i><i></i>lead_dashboard.xlsx<span class="cat-badge">Data Analysis</span></div>
-  <div class="project-card-body">
-    <h3>Lead Performance Dashboard</h3>
-    <p>Interactive Excel dashboard for a lead buying and selling business: filter by year, lead type and offer to see KPIs, partner and offer rankings and margin trends across 53 months.</p>
-    <div class="tag-row"><span class="tag">Excel</span><span class="tag">SUMIFS</span><span class="tag">Dashboard</span></div>
-    <div class="project-links">
-      <a href="https://github.com/sanjibSamadder/lead-performance-dashboard-excel" target="_blank" rel="noopener">
-        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8a8 8 0 0 0 5.47 7.59c.4.07.55-.17.55-.38v-1.49c-2.22.48-2.69-1.07-2.69-1.07-.36-.92-.89-1.16-.89-1.16-.72-.5.06-.49.06-.49.8.06 1.22.82 1.22.82.71 1.22 1.87.87 2.33.66.07-.52.28-.87.5-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.03 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.28.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.2c0 .21.15.46.55.38A8 8 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
-        Code
-      </a>
-      <a href="https://github.com/sanjibSamadder/lead-performance-dashboard-excel/raw/main/Lead_Performance_Dashboard.xlsx" download rel="noopener">
-        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M7.47 10.78a.75.75 0 0 0 1.06 0l3.75-3.75a.75.75 0 0 0-1.06-1.06L8.75 8.44V1.75a.75.75 0 0 0-1.5 0v6.69L4.78 5.97a.75.75 0 0 0-1.06 1.06l3.75 3.75ZM3.75 13a.75.75 0 0 0 0 1.5h8.5a.75.75 0 0 0 0-1.5h-8.5Z"/></svg>
-        Download Excel
-      </a>
+          <button class="thumb" data-full="assets/lead-forecast.jpg" data-caption="Lead Margin Forecast & What-If Model (Excel)" aria-label="Enlarge image: lead margin forecast model">
+            <img src="assets/lead-forecast.jpg" alt="Excel forecast model screenshot"><span class="zoom">⤢ enlarge</span>
+          </button>
+          <div class="project-card-head"><i></i><i></i><i></i><span class="fname">lead_margin_forecast.xlsx</span><span class="cat-badge">Data Analysis</span></div>
+          <div class="project-card-body">
+            <h3>Lead Margin Forecast &amp; What-If Model</h3>
+            <p>A 12-month income outlook built from 53 months of lead-buying history, with Base, Optimistic and Pessimistic scenarios, sensitivity grids, break-even analysis and a backtest.</p>
+            <div class="result"><span class="arrow">→</span> Base case projects <b>~$122.7K income</b>, with a ~$79K spread between the pessimistic and optimistic scenarios. Income is more sensitive to price than to cost.</div>
+            <div class="spacer"></div>
+            <div class="tag-row"><span class="tag">Excel</span><span class="tag">Forecasting</span><span class="tag">What-If</span></div>
+            <div class="project-links">
+              <a href="https://github.com/sanjibSamadder/lead-margin-forecast-whatif-excel" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8a8 8 0 0 0 5.47 7.59c.4.07.55-.17.55-.38v-1.49c-2.22.48-2.69-1.07-2.69-1.07-.36-.92-.89-1.16-.89-1.16-.72-.5.06-.49.06-.49.8.06 1.22.82 1.22.82.71 1.22 1.87.87 2.33.66.07-.52.28-.87.5-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.03 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.28.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.2c0 .21.15.46.55.38A8 8 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>Code</a>
+              <a href="https://github.com/sanjibSamadder/lead-margin-forecast-whatif-excel/raw/main/Lead_Margin_Forecast_WhatIf_Model.xlsx" rel="noopener"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M7.47 10.78a.75.75 0 0 0 1.06 0l3.75-3.75a.75.75 0 0 0-1.06-1.06L8.75 8.44V1.75a.75.75 0 0 0-1.5 0v6.69L4.78 5.97a.75.75 0 0 0-1.06 1.06l3.75 3.75ZM3.75 13a.75.75 0 0 0 0 1.5h8.5a.75.75 0 0 0 0-1.5h-8.5Z"/></svg>Download Excel</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="project-card" data-category="data-visualization">
+          <button class="thumb" data-full="assets/card-processing.jpg" data-caption="Card Processing Performance Dashboard (Power BI)" aria-label="Enlarge image: Power BI card processing dashboard">
+            <img src="assets/card-processing.jpg" alt="Power BI dashboard screenshot"><span class="zoom">⤢ enlarge</span>
+          </button>
+          <div class="project-card-head"><i></i><i></i><i></i><span class="fname">card_processing.pbix</span><span class="cat-badge">Dashboard</span></div>
+          <div class="project-card-body">
+            <h3>Card Processing Performance Dashboard</h3>
+            <p>A one-page Power BI report on a restaurant's merchant statements (Oct 2021 – Apr 2024): sales, transactions, fees and effective rate, with MTD, YTD and prior-year DAX measures on a star schema.</p>
+            <div class="result"><span class="arrow">→</span> <b>Fees are growing faster than sales</b> (+2.17% vs +0.49% YTD). Keyed-in cards cost 3.69% against 2.28% when swiped.</div>
+            <div class="spacer"></div>
+            <div class="tag-row"><span class="tag">Power BI</span><span class="tag">DAX</span><span class="tag">Star schema</span></div>
+            <div class="project-links">
+              <a href="https://github.com/sanjibSamadder/everyday-thai-card-processing-powerbi" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8a8 8 0 0 0 5.47 7.59c.4.07.55-.17.55-.38v-1.49c-2.22.48-2.69-1.07-2.69-1.07-.36-.92-.89-1.16-.89-1.16-.72-.5.06-.49.06-.49.8.06 1.22.82 1.22.82.71 1.22 1.87.87 2.33.66.07-.52.28-.87.5-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.03 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.28.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.2c0 .21.15.46.55.38A8 8 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>Code</a>
+              <a href="https://github.com/sanjibSamadder/everyday-thai-card-processing-powerbi/blob/main/Dashboard.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v1.69a.75.75 0 0 0 1.5 0v-3.5a.75.75 0 0 0-.75-.75h-3.5a.75.75 0 0 0 0 1.5h1.69L6.22 8.72zM3.5 3A1.5 1.5 0 0 0 2 4.5v8A1.5 1.5 0 0 0 3.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-3a.75.75 0 0 0-1.5 0v3a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-8a.5.5 0 0 1 .5-.5h3a.75.75 0 0 0 0-1.5h-3z"/></svg>View PDF</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="project-card" data-category="data-visualization">
+          <button class="thumb" data-full="assets/lead-dashboard.jpg" data-caption="Lead Performance Dashboard (Excel)" aria-label="Enlarge image: Excel lead performance dashboard">
+            <img src="assets/lead-dashboard.jpg" alt="Excel lead performance dashboard screenshot"><span class="zoom">⤢ enlarge</span>
+          </button>
+          <div class="project-card-head"><i></i><i></i><i></i><span class="fname">lead_dashboard.xlsx</span><span class="cat-badge">Dashboard</span></div>
+          <div class="project-card-body">
+            <h3>Lead Performance Dashboard</h3>
+            <p>An interactive Excel dashboard for a lead-buying business. Filter by year, lead type and offer, and every KPI, ranking and chart updates across 53 months and 9,796 records.</p>
+            <div class="result"><span class="arrow">→</span> <b>769K leads → $4.04M revenue → $2.16M income</b> at a 53.5% margin. The top 5 of 77 partners generate 72% of income.</div>
+            <div class="spacer"></div>
+            <div class="tag-row"><span class="tag">Excel</span><span class="tag">SUMIFS</span><span class="tag">INDEX / MATCH</span></div>
+            <div class="project-links">
+              <a href="https://github.com/sanjibSamadder/lead-performance-dashboard-excel" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8a8 8 0 0 0 5.47 7.59c.4.07.55-.17.55-.38v-1.49c-2.22.48-2.69-1.07-2.69-1.07-.36-.92-.89-1.16-.89-1.16-.72-.5.06-.49.06-.49.8.06 1.22.82 1.22.82.71 1.22 1.87.87 2.33.66.07-.52.28-.87.5-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.03 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.28.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.2c0 .21.15.46.55.38A8 8 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>Code</a>
+              <a href="https://github.com/sanjibSamadder/lead-performance-dashboard-excel/raw/main/Lead_Performance_Dashboard.xlsx" rel="noopener"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M7.47 10.78a.75.75 0 0 0 1.06 0l3.75-3.75a.75.75 0 0 0-1.06-1.06L8.75 8.44V1.75a.75.75 0 0 0-1.5 0v6.69L4.78 5.97a.75.75 0 0 0-1.06 1.06l3.75 3.75ZM3.75 13a.75.75 0 0 0 0 1.5h8.5a.75.75 0 0 0 0-1.5h-8.5Z"/></svg>Download Excel</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="project-card" data-category="statistics">
+          <button class="thumb" data-full="assets/darwin-fda.jpg" data-caption="Functional Analysis of Darwin Sea Level Pressure (1951–2025)" aria-label="Enlarge image: Darwin sea level pressure analysis">
+            <img src="assets/darwin-fda.jpg" alt="Functional data analysis surface plot"><span class="zoom">⤢ enlarge</span>
+          </button>
+          <div class="project-card-head"><i></i><i></i><i></i><span class="fname">darwin_slp_fda.Rmd</span><span class="cat-badge">Statistics</span></div>
+          <div class="project-card-body">
+            <h3>Darwin Sea-Level Pressure: Functional Data Analysis</h3>
+            <p>75 years of climate data modelled as smooth curves with a Fourier basis, followed by functional PCA with VARIMAX rotation to find the dominant seasonal and ENSO modes.</p>
+            <div class="result"><span class="arrow">→</span> <b>Two components explain 79.71%</b> of pressure variation. Manual λ selection improved RMS residual by 10.6%.</div>
+            <div class="spacer"></div>
+            <div class="tag-row"><span class="tag">R</span><span class="tag">fda</span><span class="tag">FPCA</span></div>
+            <div class="project-links">
+              <a href="https://github.com/sanjibSamadder/darwin_slp_fda" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8a8 8 0 0 0 5.47 7.59c.4.07.55-.17.55-.38v-1.49c-2.22.48-2.69-1.07-2.69-1.07-.36-.92-.89-1.16-.89-1.16-.72-.5.06-.49.06-.49.8.06 1.22.82 1.22.82.71 1.22 1.87.87 2.33.66.07-.52.28-.87.5-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.03 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.28.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.2c0 .21.15.46.55.38A8 8 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>Code</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="project-card" data-category="statistics">
+          <button class="thumb" data-full="assets/wine-pca.jpg" data-caption="Improving Clustering Quality with PCA (Wine dataset)" aria-label="Enlarge image: PCA clustering plot">
+            <img src="assets/wine-pca.jpg" alt="PCA cluster plot" style="object-fit:contain;background:#fff"><span class="zoom">⤢ enlarge</span>
+          </button>
+          <div class="project-card-head"><i></i><i></i><i></i><span class="fname">wine_clustering.Rmd</span><span class="cat-badge">Statistics</span></div>
+          <div class="project-card-body">
+            <h3>Improving Clustering Quality with PCA</h3>
+            <p>Used PCA loadings to identify and remove noise variables from the UCI Wine dataset before K-Means, then chose k using the elbow and silhouette methods.</p>
+            <div class="result"><span class="arrow">→</span> Removing 3 mineral-derived noise variables raised <b>cluster quality from 44.8% to 53.0%</b>.</div>
+            <div class="spacer"></div>
+            <div class="tag-row"><span class="tag">R</span><span class="tag">PCA</span><span class="tag">K-Means</span></div>
+            <div class="project-links">
+              <a href="https://github.com/sanjibSamadder/improving-clustering-quality-with-pca" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8a8 8 0 0 0 5.47 7.59c.4.07.55-.17.55-.38v-1.49c-2.22.48-2.69-1.07-2.69-1.07-.36-.92-.89-1.16-.89-1.16-.72-.5.06-.49.06-.49.8.06 1.22.82 1.22.82.71 1.22 1.87.87 2.33.66.07-.52.28-.87.5-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.03 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.28.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.2c0 .21.15.46.55.38A8 8 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>Code</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="project-card" data-category="statistics">
+          <div class="project-card-head"><i></i><i></i><i></i><span class="fname">cancer_rates_fda.Rmd</span><span class="cat-badge">Statistics</span></div>
+          <div class="project-card-body">
+            <h3>Australian Breast Cancer Rates: Functional Analysis (1921–2001)</h3>
+            <p>B-spline smoothing with GCV-selected λ, functional descriptive statistics, rotated FPCA and functional regression testing whether rates in younger and older women move together.</p>
+            <div class="result"><span class="arrow">→</span> <b>PC1 explains 99.17%</b> of variation (rise, peak, decline). β(t) ≈ 1.00 gives a significant positive association between age groups.</div>
+            <div class="spacer"></div>
+            <div class="tag-row"><span class="tag">R</span><span class="tag">B-splines</span><span class="tag">Functional regression</span></div>
+            <div class="project-links">
+              <a href="https://github.com/sanjibSamadder/Cancer_Rate_Functional_Analysis" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8a8 8 0 0 0 5.47 7.59c.4.07.55-.17.55-.38v-1.49c-2.22.48-2.69-1.07-2.69-1.07-.36-.92-.89-1.16-.89-1.16-.72-.5.06-.49.06-.49.8.06 1.22.82 1.22.82.71 1.22 1.87.87 2.33.66.07-.52.28-.87.5-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.03 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.28.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.2c0 .21.15.46.55.38A8 8 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>Code</a>
+            </div>
+          </div>
+        </article>
+
+      </div>
+
+      <div class="more-row">
+        <a class="btn btn-ghost" href="https://github.com/sanjibSamadder?tab=repositories" target="_blank" rel="noopener">ls ~/github --all →</a>
+      </div>
     </div>
   </div>
-</article>
+</section>
 
-        <article class="project-card" data-category="data-analysis">
-          <div class="project-card-head"><i></i><i></i><i></i>campaign_analysis.py<span class="cat-badge">Data Analysis</span></div>
-          <div class="project-card-body">
-            <h3>Marketing Campaign Analysis</h3>
-            <p>Post-campaign analysis of conversion lift across channels, isolating the true effect of a discount promotion from seasonal noise.</p>
-            <div class="tag-row"><span class="tag">SQL</span><span class="tag">A/B Testing</span><span class="tag">pandas</span></div>
-            <div class="project-links">
-              <a href="https://github.com/yourusername/campaign-analysis" target="_blank" rel="noopener">
-                <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8a8 8 0 0 0 5.47 7.59c.4.07.55-.17.55-.38v-1.49c-2.22.48-2.69-1.07-2.69-1.07-.36-.92-.89-1.16-.89-1.16-.72-.5.06-.49.06-.49.8.06 1.22.82 1.22.82.71 1.22 1.87.87 2.33.66.07-.52.28-.87.5-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.03 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.28.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.2c0 .21.15.46.55.38A8 8 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
-                Code
-              </a>
-            </div>
-          </div>
-        </article>
-
-        <article class="project-card" data-category="data-visualization">
-          <div class="project-card-head"><i></i><i></i><i></i>sales_report.pbix<span class="cat-badge">Data Visualization</span></div>
-          <div class="project-card-body">
-            <h3>Sales Performance Dashboard</h3>
-            <p>Executive Power BI dashboard tracking revenue, margin, and regional performance with drill-through by product line and live refresh from SQL.</p>
-            <div class="tag-row"><span class="tag">Power BI</span><span class="tag">DAX</span><span class="tag">SQL</span></div>
-            <div class="project-links">
-              <a href="#" target="_blank" rel="noopener">
-                <svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v1.69a.75.75 0 0 0 1.5 0v-3.5a.75.75 0 0 0-.75-.75h-3.5a.75.75 0 0 0 0 1.5h1.69L6.22 8.72zM3.5 3A1.5 1.5 0 0 0 2 4.5v8A1.5 1.5 0 0 0 3.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-3a.75.75 0 0 0-1.5 0v3a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-8a.5.5 0 0 1 .5-.5h3a.75.75 0 0 0 0-1.5h-3z"/></svg>
-                View report
-              </a>
-            </div>
-          </div>
-        </article>
-
-        <article class="project-card" data-category="data-visualization">
-          <div class="project-card-head"><i></i><i></i><i></i>health_tracker.twbx<span class="cat-badge">Data Visualization</span></div>
-          <div class="project-card-body">
-            <h3>Public Health Tracker</h3>
-            <p>Tableau dashboard visualizing regional health trends over time with dynamic filters, published to Tableau Public for open access.</p>
-            <div class="tag-row"><span class="tag">Tableau</span><span class="tag">Public data</span><span class="tag">ETL</span></div>
-            <div class="project-links">
-              <a href="#" target="_blank" rel="noopener">
-                <svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v1.69a.75.75 0 0 0 1.5 0v-3.5a.75.75 0 0 0-.75-.75h-3.5a.75.75 0 0 0 0 1.5h1.69L6.22 8.72zM3.5 3A1.5 1.5 0 0 0 2 4.5v8A1.5 1.5 0 0 0 3.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-3a.75.75 0 0 0-1.5 0v3a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-8a.5.5 0 0 1 .5-.5h3a.75.75 0 0 0 0-1.5h-3z"/></svg>
-                View on Tableau Public
-              </a>
-            </div>
-          </div>
-        </article>
-
-        <article class="project-card" data-category="data-visualization">
-          <div class="project-card-head"><i></i><i></i><i></i>dashboard.tsx<span class="cat-badge">Data Visualization</span></div>
-          <div class="project-card-body">
-            <h3>Executive Metrics Dashboard</h3>
-            <p>Interactive Plotly/Dash dashboard unifying product, revenue, and cohort metrics for weekly leadership reviews.</p>
-            <div class="tag-row"><span class="tag">Dash</span><span class="tag">Pandas</span><span class="tag">PostgreSQL</span></div>
-            <div class="project-links">
-              <a href="https://github.com/yourusername/exec-dashboard" target="_blank" rel="noopener">
-                <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8a8 8 0 0 0 5.47 7.59c.4.07.55-.17.55-.38v-1.49c-2.22.48-2.69-1.07-2.69-1.07-.36-.92-.89-1.16-.89-1.16-.72-.5.06-.49.06-.49.8.06 1.22.82 1.22.82.71 1.22 1.87.87 2.33.66.07-.52.28-.87.5-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.03 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.28.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.2c0 .21.15.46.55.38A8 8 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
-                Code
-              </a>
-              <a href="#" target="_blank" rel="noopener">
-                <svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v1.69a.75.75 0 0 0 1.5 0v-3.5a.75.75 0 0 0-.75-.75h-3.5a.75.75 0 0 0 0 1.5h1.69L6.22 8.72zM3.5 3A1.5 1.5 0 0 0 2 4.5v8A1.5 1.5 0 0 0 3.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-3a.75.75 0 0 0-1.5 0v3a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-8a.5.5 0 0 1 .5-.5h3a.75.75 0 0 0 0-1.5h-3z"/></svg>
-                Live demo
-              </a>
-            </div>
-          </div>
-        </article>
-
+<!-- ============ SKILLS ============ -->
+<section id="skills" class="section-pad reveal">
+  <div class="wrap">
+    <div class="file-header">
+      <div class="traffic"><i></i><i></i><i></i></div>
+      <span class="filename">skills.py</span>
+      <span class="path">import stack</span>
+    </div>
+    <div class="panel-body">
+      <h2 class="section-title">Skills &amp; stack</h2>
+      <p class="section-sub">The tools I use most, grouped by the stage of a project where they come in. Each one appears in the projects above.</p>
+      <div class="skill-groups">
+        <div>
+          <div class="skill-group-label">Languages</div>
+          <div class="chip-row"><span class="chip">Python</span><span class="chip">SQL</span><span class="chip">R</span><span class="chip">DAX</span></div>
+        </div>
+        <div>
+          <div class="skill-group-label">Machine learning</div>
+          <div class="chip-row"><span class="chip">scikit-learn</span><span class="chip">TensorFlow / Keras</span><span class="chip">PyTorch</span><span class="chip">XGBoost</span><span class="chip">Ensembles</span><span class="chip">Clustering</span></div>
+        </div>
+        <div>
+          <div class="skill-group-label">Statistics</div>
+          <div class="chip-row"><span class="chip">PCA / FPCA</span><span class="chip">Functional data analysis</span><span class="chip">Hypothesis testing</span><span class="chip">Forecasting</span><span class="chip">Bayesian optimisation</span></div>
+        </div>
+        <div>
+          <div class="skill-group-label">Data &amp; databases</div>
+          <div class="chip-row"><span class="chip">pandas</span><span class="chip">NumPy</span><span class="chip">PostgreSQL</span><span class="chip">Snowflake</span><span class="chip">dbt</span><span class="chip">Power Query</span></div>
+        </div>
+        <div>
+          <div class="skill-group-label">BI &amp; visualisation</div>
+          <div class="chip-row"><span class="chip">Power BI</span><span class="chip">Excel</span><span class="chip">Tableau</span><span class="chip">Looker</span><span class="chip">Matplotlib</span></div>
+        </div>
+        <div>
+          <div class="skill-group-label">Deploy &amp; workflow</div>
+          <div class="chip-row"><span class="chip">Streamlit</span><span class="chip">Git / GitHub</span><span class="chip">Jupyter</span><span class="chip">RMarkdown</span><span class="chip">VBA</span></div>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
 <!-- ============ CONTACT ============ -->
-<section id="contact" class="section-pad">
+<section id="contact" class="section-pad reveal">
   <div class="wrap">
     <div class="file-header">
       <div class="traffic"><i></i><i></i><i></i></div>
@@ -732,10 +822,10 @@
       <div class="contact-grid">
         <div class="contact-lead">
           <h2 class="section-title">Let's talk data</h2>
-          <p>Open to data science roles, consulting, and interesting collaborations. Fastest way to reach me is email — I usually reply within a day or two.</p>
+          <p>I'm open to Data Scientist and ML placements for 2027, freelance work and research collaborations. Email is the quickest way to reach me, and I usually reply within a day or two.</p>
           <div class="contact-links">
             <a class="contact-link" href="mailto:skilled.sanjib@gmail.com">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h16v16H4z" opacity="0"/><path d="M3 6.5 12 13l9-6.5"/><path d="M3 6.5V18h18V6.5"/></svg>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 6.5 12 13l9-6.5"/><path d="M3 6.5V18h18V6.5"/></svg>
               skilled.sanjib@gmail.com
             </a>
             <a class="contact-link" href="https://github.com/sanjibSamadder" target="_blank" rel="noopener">
@@ -744,65 +834,114 @@
             </a>
             <a class="contact-link" href="https://linkedin.com/in/sanjibsamadder/" target="_blank" rel="noopener">
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-.95 1.83-1.95 3.77-1.95 4.03 0 4.78 2.5 4.78 5.75V21h-4v-5.6c0-1.34-.02-3.07-1.87-3.07-1.87 0-2.16 1.46-2.16 2.97V21H9z"/></svg>
-             linkedin.com/in/sanjibsamadder/
+              linkedin.com/in/sanjibsamadder
             </a>
           </div>
         </div>
-
+        <div>
+          <div class="comment"># terminal</div>
+          <div class="terminal" aria-label="Decorative terminal">
+            <div><span class="p">$</span> python contact.py --status</div>
+            <div class="o">location   : United Kingdom</div>
+            <div class="o">available  : placement 2027 · freelance</div>
+            <div class="o">response   : ~24–48h</div>
+            <div class="g">✓ ready to collaborate</div>
+            <div><span class="p">$</span> <span class="cursor"></span></div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
 <footer>
-  <div class="wrap">© 2026 Sanjib Samadder — built with HTML, CSS &amp; a little numpy energy.</div>
+  <div class="wrap">© <span id="year">2026</span> Sanjib Samadder · built with HTML, CSS &amp; a little numpy energy.</div>
 </footer>
 
+<!-- ============ LIGHTBOX ============ -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Image preview">
+  <button class="lightbox-close" id="lbClose">esc ✕</button>
+  <figure>
+    <img id="lbImg" src="" alt="">
+    <figcaption id="lbCap"></figcaption>
+  </figure>
+</div>
+
 <script>
-  // ---- Project category filtering ----
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // ---- Project filtering + counts ----
   const filterBtns = document.querySelectorAll('.filter-btn');
   const projectCards = document.querySelectorAll('.project-card');
-
   filterBtns.forEach(btn => {
+    const f = btn.dataset.filter;
+    const n = f === 'all' ? projectCards.length : document.querySelectorAll(`.project-card[data-category="${f}"]`).length;
+    btn.querySelector('.count').textContent = n;
     btn.addEventListener('click', () => {
-      const filter = btn.dataset.filter;
-
       filterBtns.forEach(b => {
         b.classList.toggle('active', b === btn);
         b.setAttribute('aria-selected', b === btn ? 'true' : 'false');
       });
-
       projectCards.forEach(card => {
-        const match = filter === 'all' || card.dataset.category === filter;
+        const match = f === 'all' || card.dataset.category === f;
         card.classList.toggle('is-hidden', !match);
       });
     });
   });
 
-  // ---- Active tab highlighting on scroll ----
+  // ---- Lightbox ----
+  const lb = document.getElementById('lightbox'), lbImg = document.getElementById('lbImg'), lbCap = document.getElementById('lbCap');
+  let lastFocus = null;
+  document.querySelectorAll('.thumb').forEach(t => t.addEventListener('click', () => {
+    lastFocus = t;
+    lbImg.src = t.dataset.full; lbImg.alt = t.dataset.caption; lbCap.textContent = t.dataset.caption;
+    lb.classList.add('open'); document.getElementById('lbClose').focus();
+  }));
+  function closeLb(){ lb.classList.remove('open'); lbImg.src=''; if(lastFocus) lastFocus.focus(); }
+  document.getElementById('lbClose').addEventListener('click', closeLb);
+  lb.addEventListener('click', e => { if (e.target === lb) closeLb(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && lb.classList.contains('open')) closeLb(); });
+
+  // ---- Active tab on scroll ----
   const tabs = document.querySelectorAll('.tab');
   const sections = Array.from(tabs).map(t => document.getElementById(t.dataset.target));
-
-  const observer = new IntersectionObserver((entries) => {
+  const observer = new IntersectionObserver(entries => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         const id = entry.target.id;
         tabs.forEach(t => t.classList.toggle('active', t.dataset.target === id));
+        const active = document.querySelector('.tab.active');
+        if (active && window.innerWidth < 760) active.scrollIntoView({block:'nearest', inline:'center'});
       }
     });
   }, { rootMargin: '-40% 0px -55% 0px', threshold: 0 });
-
   sections.forEach(s => s && observer.observe(s));
+
+  // ---- Reveal on scroll ----
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const revealObs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); revealObs.unobserve(e.target); } });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(el => prefersReducedMotion ? el.classList.add('in') : revealObs.observe(el));
+
+  // ---- Count-up stats ----
+  if (!prefersReducedMotion) {
+    document.querySelectorAll('[data-count]').forEach(el => {
+      const target = +el.dataset.count, suffix = el.dataset.suffix || '';
+      const t0 = performance.now(), dur = 1200;
+      (function tick(now){
+        const p = Math.min(1, (now - t0) / dur), eased = 1 - Math.pow(1 - p, 3);
+        el.textContent = Math.round(target * eased) + suffix;
+        if (p < 1) requestAnimationFrame(tick);
+      })(t0);
+    });
+  }
 
   // ---- Hero canvas: animated scatter plot with a regression line ----
   const canvas = document.getElementById('plotCanvas');
   const ctx = canvas.getContext('2d');
-  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  let points = [];
-  let w, h;
-
-  function resize() {
+  let points = [], w, h, startTime = null;
+  function resize(){
     const rect = canvas.parentElement.getBoundingClientRect();
     w = canvas.width = rect.width * devicePixelRatio;
     h = canvas.height = rect.height * devicePixelRatio;
@@ -810,92 +949,49 @@
     canvas.style.height = rect.height + 'px';
     generatePoints();
   }
-
-  function generatePoints() {
+  function generatePoints(){
     points = [];
     const count = 46;
-    for (let i = 0; i < count; i++) {
+    for (let i = 0; i < count; i++){
       const x = Math.random() * w;
       const noise = (Math.random() - 0.5) * h * 0.5;
       const y = h - (x / w) * h * 0.55 - h * 0.15 + noise;
-      points.push({
-        x, y: Math.max(20, Math.min(h - 20, y)),
-        r: (1.5 + Math.random() * 2.2) * devicePixelRatio,
-        color: Math.random() > 0.72 ? '#B5690A' : '#1D5FD6',
-        drawn: false,
-        delay: i * 35
-      });
+      points.push({ x, y: Math.max(20, Math.min(h - 20, y)), r:(1.5 + Math.random() * 2.2) * devicePixelRatio,
+        color: Math.random() > 0.72 ? '#B5690A' : '#1D5FD6', delay: i * 35 });
     }
   }
-
-  let startTime = null;
-
-  function draw(ts) {
+  function drawGrid(){
+    ctx.strokeStyle = 'rgba(17,20,24,0.06)'; ctx.lineWidth = 1;
+    const step = 48 * devicePixelRatio;
+    for (let x = 0; x < w; x += step){ ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,h); ctx.stroke(); }
+    for (let y = 0; y < h; y += step){ ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(w,y); ctx.stroke(); }
+  }
+  function drawLine(progress){
+    const x1 = 0, y1 = h * 0.82, x2 = w, y2 = h * 0.22;
+    ctx.beginPath(); ctx.moveTo(x1, y1);
+    ctx.lineTo(x1 + (x2 - x1) * progress, y1 + (y2 - y1) * progress);
+    ctx.strokeStyle = 'rgba(17,20,24,0.4)'; ctx.lineWidth = 2 * devicePixelRatio; ctx.stroke();
+  }
+  function draw(ts){
     if (!startTime) startTime = ts;
     const elapsed = ts - startTime;
-
-    ctx.clearRect(0, 0, w, h);
-
-    // faint grid
-    ctx.strokeStyle = 'rgba(17,20,24,0.06)';
-    ctx.lineWidth = 1;
-    const gridStep = 48 * devicePixelRatio;
-    for (let x = 0; x < w; x += gridStep) {
-      ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke();
-    }
-    for (let y = 0; y < h; y += gridStep) {
-      ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke();
-    }
-
-    // points
-    let visiblePoints = [];
+    ctx.clearRect(0, 0, w, h); drawGrid();
     points.forEach(p => {
-      if (elapsed > p.delay) {
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = p.color;
-        ctx.globalAlpha = 0.85;
-        ctx.fill();
-        ctx.globalAlpha = 1;
-        visiblePoints.push(p);
+      if (prefersReducedMotion || elapsed > p.delay){
+        ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = p.color; ctx.globalAlpha = 0.85; ctx.fill(); ctx.globalAlpha = 1;
       }
     });
-
-    // regression line grows in after points appear
     const lineStart = 46 * 35 + 300;
-    if (elapsed > lineStart) {
-      const progress = Math.min(1, (elapsed - lineStart) / 900);
-      const x1 = 0, y1 = h * 0.82;
-      const x2 = w, y2 = h * 0.22;
-      const cx = x1 + (x2 - x1) * progress;
-      const cy = y1 + (y2 - y1) * progress;
-      ctx.beginPath();
-      ctx.moveTo(x1, y1);
-      ctx.lineTo(cx, cy);
-      ctx.strokeStyle = 'rgba(17,20,24,0.4)';
-      ctx.lineWidth = 2 * devicePixelRatio;
-      ctx.stroke();
-    }
-
-    if (!prefersReducedMotion && elapsed < lineStart + 1200) {
-      requestAnimationFrame(draw);
-    } else if (prefersReducedMotion) {
-      // draw final static state once
-      points.forEach(p => {
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = p.color;
-        ctx.fill();
-      });
-    }
+    if (prefersReducedMotion) { drawLine(1); return; }
+    if (elapsed > lineStart) drawLine(Math.min(1, (elapsed - lineStart) / 900));
+    if (elapsed < lineStart + 1200) requestAnimationFrame(draw);
   }
-
+  let rT;
   window.addEventListener('resize', () => {
-    resize();
-    startTime = null;
-    if (!prefersReducedMotion) requestAnimationFrame(draw);
+    clearTimeout(rT);
+    rT = setTimeout(() => { resize(); startTime = null; requestAnimationFrame(draw); }, 150);
   });
-
   resize();
   requestAnimationFrame(draw);
 </script>
