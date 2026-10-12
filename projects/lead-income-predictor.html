@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lead &amp; Income Predictor — Case Study · Sanjib Samadder</title>
+<meta name="description" content="Case study: forecasting leads, income and scrub cost for a lead-buying business with gradient boosting (CV R² 0.911), with data leakage, over-regularisation and holdout traps documented, deployed as a Streamlit app.">
+<link rel="canonical" href="https://sanjibsamadder.github.io/projects/lead-income-predictor.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Lead &amp; Income Predictor — a forecasting case study">
+<meta property="og:description" content="Seven models, three traps, one deployed model: gradient boosting with CV R² 0.911.">
+<meta property="og:image" content="https://sanjibsamadder.github.io/assets/og-image.jpg">
+<meta property="og:url" content="https://sanjibsamadder.github.io/projects/lead-income-predictor.html">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="icon" href="../favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg:#FFFFFF; --surface:#F5F7FA; --surface-hi:#EDF1F7;
+    --text:#111418; --text-dim:#4B5563; --text-faint:#7A8494;
+    --accent-blue:#1D5FD6; --accent-blue-soft:rgba(29,95,214,0.10);
+    --accent-amber:#B5690A; --accent-amber-soft:rgba(181,105,10,0.10);
+    --green:#1F8A5B; --red:#C2410C;
+    --mute-mark:#8A93A3;
+    --border:rgba(17,20,24,0.10); --border-hi:rgba(17,20,24,0.18);
+    --radius:10px;
+    --font-display:'Space Grotesk', sans-serif;
+    --font-body:'Inter', sans-serif;
+    --font-mono:'JetBrains Mono', monospace;
+  }
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  html, body{ overflow-x:clip; }
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior:auto; }
+    *{ animation-duration:0.01ms !important; transition-duration:0.01ms !important; }
+  }
+  body{ background:var(--bg); color:var(--text); font-family:var(--font-body); line-height:1.65; -webkit-font-smoothing:antialiased; }
+  a{ color:inherit; text-decoration:none; }
+  img{ max-width:100%; display:block; }
+  ::selection{ background:var(--accent-blue); color:#fff; }
+  :focus-visible{ outline:2px solid var(--accent-amber); outline-offset:3px; }
+  .wrap{ max-width:1000px; margin:0 auto; padding:0 32px; }
+
+  /* nav */
+  .tabbar{ position:sticky; top:0; z-index:100; background:rgba(255,255,255,0.92); backdrop-filter:blur(10px); border-bottom:1px solid var(--border); }
+  .tabbar-inner{ max-width:1000px; margin:0 auto; padding:0 24px; display:flex; align-items:center; gap:2px; overflow-x:auto; scrollbar-width:none; }
+  .tabbar-inner::-webkit-scrollbar{ display:none; }
+  .tab-brand{ font-family:var(--font-mono); font-size:13px; color:var(--accent-amber); padding:14px 18px 14px 4px; white-space:nowrap; flex-shrink:0; }
+  .tab-brand span{ color:var(--text-faint); }
+  .tab{ font-family:var(--font-mono); font-size:13px; color:var(--text-dim); padding:14px 16px; white-space:nowrap; border-right:1px solid var(--border); display:flex; align-items:center; gap:8px; flex-shrink:0; position:relative; }
+  .tab:hover{ color:var(--text); background:var(--surface); }
+  .tab .dot{ width:6px; height:6px; border-radius:50%; background:var(--text-faint); }
+  .tab.active{ color:var(--text); background:var(--surface); }
+  .tab.active .dot{ background:var(--accent-blue); }
+  .tab.active::after{ content:''; position:absolute; left:0; right:0; bottom:-1px; height:2px; background:var(--accent-blue); }
+  .tab-cta{ margin-left:auto; flex-shrink:0; font-family:var(--font-mono); font-size:12.5px; padding:7px 14px; border-radius:6px; background:var(--accent-blue); color:#fff; white-space:nowrap; }
+  .progress{ position:fixed; top:0; left:0; height:3px; width:100%; z-index:150; background:linear-gradient(90deg, var(--accent-blue), var(--accent-amber)); transform-origin:0 50%; transform:scaleX(0); }
+
+  /* panels */
+  .file-header{ display:flex; align-items:center; gap:10px; padding:10px 18px; background:var(--surface); border:1px solid var(--border); border-bottom:none; border-radius:var(--radius) var(--radius) 0 0; font-family:var(--font-mono); font-size:12.5px; color:var(--text-dim); }
+  .traffic{ display:flex; gap:6px; margin-right:4px; }
+  .traffic i{ width:9px; height:9px; border-radius:50%; display:block; }
+  .traffic i:nth-child(1){ background:#e0605a; } .traffic i:nth-child(2){ background:#e0a95a; } .traffic i:nth-child(3){ background:#5ac48a; }
+  .file-header .filename{ color:var(--text); }
+  .file-header .path{ color:var(--text-faint); margin-left:auto; white-space:nowrap; }
+  .panel-body{ border:1px solid var(--border); border-radius:0 0 var(--radius) var(--radius); padding:44px 48px; box-shadow:0 4px 24px rgba(17,20,24,0.05); background:var(--bg); }
+  section{ padding:28px 0; scroll-margin-top:56px; }
+
+  .crumb{ font-family:var(--font-mono); font-size:12.5px; color:var(--text-faint); margin:36px 0 0; }
+  .crumb a{ color:var(--accent-blue); }
+  .crumb a:hover{ color:var(--accent-amber); }
+
+  .eyebrow{ font-family:var(--font-mono); font-size:13px; color:var(--accent-amber); display:flex; align-items:center; gap:10px; margin-bottom:16px; }
+  .eyebrow::before{ content:''; width:22px; height:1px; background:var(--accent-amber); }
+  h1{ font-family:var(--font-display); font-weight:700; font-size:clamp(2rem, 4.4vw, 3rem); line-height:1.1; letter-spacing:-0.02em; color:var(--accent-blue); margin-bottom:16px; }
+  h1 .accent{ color:var(--text); }
+  .lede{ font-size:1.08rem; color:var(--text-dim); max-width:720px; margin-bottom:28px; }
+  h2{ font-family:var(--font-display); font-size:1.6rem; font-weight:600; color:var(--accent-blue); margin-bottom:12px; letter-spacing:-0.01em; }
+  h3{ font-family:var(--font-display); font-size:1.12rem; font-weight:600; margin-bottom:6px; }
+  p{ color:var(--text-dim); margin-bottom:14px; }
+  p strong, li strong{ color:var(--text); font-weight:600; }
+  code{ font-family:var(--font-mono); font-size:0.86em; background:var(--surface); border:1px solid var(--border); padding:1px 6px; border-radius:4px; color:var(--text); }
+  .sub{ color:var(--text-dim); max-width:680px; margin-bottom:28px; }
+
+  .meta-grid{ display:grid; grid-template-columns:repeat(4, 1fr); gap:1px; background:var(--border); border:1px solid var(--border); border-radius:8px; overflow:hidden; margin-bottom:30px; }
+  .meta-grid > div{ padding:14px 16px; background:var(--surface); }
+  .meta-grid .k{ font-family:var(--font-mono); font-size:10.5px; text-transform:uppercase; letter-spacing:0.06em; color:var(--accent-amber); margin-bottom:3px; }
+  .meta-grid .v{ font-size:0.92rem; color:var(--text); }
+
+  .btn-row{ display:flex; gap:12px; flex-wrap:wrap; }
+  .btn{ font-family:var(--font-mono); font-size:13px; padding:11px 20px; border-radius:6px; border:1px solid transparent; display:inline-flex; align-items:center; gap:8px; transition:transform .15s ease, background .15s ease, border-color .15s ease, color .15s ease; }
+  .btn-primary{ background:var(--accent-blue); color:#fff; font-weight:600; }
+  .btn-primary:hover{ background:#164FB5; transform:translateY(-1px); }
+  .btn-ghost{ border-color:var(--border-hi); color:var(--text); }
+  .btn-ghost:hover{ border-color:var(--accent-amber); color:var(--accent-amber); }
+  .btn svg{ width:14px; height:14px; }
+
+  /* stat tiles */
+  .tiles{ display:grid; grid-template-columns:repeat(auto-fit, minmax(170px, 1fr)); gap:14px; }
+  .tile{ border:1px solid var(--border); border-radius:8px; padding:18px 18px 16px; background:var(--bg); }
+  .tile .v{ font-family:var(--font-display); font-weight:700; font-size:2rem; line-height:1.05; color:var(--text); }
+  .tile .l{ font-family:var(--font-mono); font-size:11px; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-faint); margin-top:6px; }
+  .tile .n{ font-size:0.84rem; color:var(--text-dim); margin-top:8px; line-height:1.5; }
+  .tile.hl{ border-color:rgba(29,95,214,0.35); background:linear-gradient(180deg, var(--accent-blue-soft), transparent 70%); }
+  .tile.hl .v{ color:var(--accent-blue); }
+
+  /* two-col */
+  .two{ display:grid; grid-template-columns:1fr 1fr; gap:36px; }
+  .two > *{ min-width:0; }
+  ul.clean{ list-style:none; }
+  ul.clean li{ position:relative; padding-left:22px; color:var(--text-dim); margin-bottom:10px; }
+  ul.clean li::before{ content:'→'; position:absolute; left:0; color:var(--accent-amber); font-family:var(--font-mono); }
+
+  /* pipeline */
+  .pipeline{ display:flex; align-items:stretch; gap:0; margin:8px 0 6px; overflow-x:auto; padding-bottom:4px; }
+  .step{ flex:1 1 0; min-width:150px; border:1px solid var(--border); border-radius:8px; padding:14px 14px; background:var(--surface); position:relative; }
+  .step .num{ font-family:var(--font-mono); font-size:11px; color:var(--accent-amber); }
+  .step .t{ font-family:var(--font-display); font-weight:600; font-size:0.98rem; margin:2px 0 4px; }
+  .step .d{ font-size:0.82rem; color:var(--text-dim); line-height:1.5; }
+  .arrow{ flex:0 0 26px; display:flex; align-items:center; justify-content:center; color:var(--text-faint); font-family:var(--font-mono); }
+
+  /* chart */
+  .chart-card{ border:1px solid var(--border); border-radius:8px; padding:22px 22px 14px; background:var(--bg); position:relative; }
+  .chart-head{ display:flex; align-items:baseline; justify-content:space-between; gap:16px; flex-wrap:wrap; margin-bottom:6px; }
+  .chart-title{ font-family:var(--font-display); font-weight:600; font-size:1.02rem; color:var(--text); }
+  .chart-note{ font-size:0.84rem; color:var(--text-faint); }
+  .legend{ display:flex; gap:16px; flex-wrap:wrap; font-size:0.82rem; color:var(--text-dim); margin:4px 0 8px; }
+  .legend span{ display:inline-flex; align-items:center; gap:7px; }
+  .legend i{ width:10px; height:10px; border-radius:50%; display:inline-block; }
+  .legend .w{ width:18px; height:2px; border-radius:1px; background:var(--text-faint); }
+  #modelChart{ width:100%; height:auto; display:block; overflow:visible; }
+  #modelChart text{ font-family:var(--font-body); }
+  .row-hit{ cursor:default; }
+  .row-hit:hover .row-bg, .row-hit:focus .row-bg{ fill:var(--surface); }
+  .tooltip{
+    position:absolute; pointer-events:none; z-index:5; min-width:190px;
+    background:var(--text); color:#fff; border-radius:6px; padding:10px 12px;
+    font-size:12.5px; line-height:1.5; box-shadow:0 8px 24px rgba(17,20,24,0.18);
+    opacity:0; transform:translateY(4px); transition:opacity .12s ease, transform .12s ease;
+  }
+  .tooltip.show{ opacity:1; transform:none; }
+  .tooltip .tt-name{ font-weight:600; margin-bottom:4px; }
+  .tooltip .tt-row{ display:flex; justify-content:space-between; gap:16px; font-family:var(--font-mono); font-size:11.5px; color:#D6DCE5; }
+  .tooltip .tt-verdict{ margin-top:6px; color:#fff; font-size:12px; }
+  details.table-view{ margin-top:10px; }
+  details.table-view summary{ font-family:var(--font-mono); font-size:12px; color:var(--accent-blue); cursor:pointer; padding:6px 0; }
+  table{ width:100%; border-collapse:collapse; font-size:0.9rem; margin-top:8px; }
+  th, td{ text-align:left; padding:9px 10px; border-bottom:1px solid var(--border); }
+  th{ font-family:var(--font-mono); font-size:11px; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-faint); font-weight:500; }
+  td.num, th.num{ text-align:right; font-variant-numeric:tabular-nums; }
+  tr.sel td{ color:var(--text); font-weight:600; background:var(--accent-blue-soft); }
+  .table-wrap{ overflow-x:auto; }
+
+  /* lessons */
+  .lessons{ display:grid; grid-template-columns:repeat(3, 1fr); gap:18px; }
+  .lesson{ border:1px solid var(--border); border-radius:10px; overflow:hidden; display:flex; flex-direction:column; background:var(--surface); }
+  .lesson-head{ display:flex; align-items:center; gap:6px; padding:9px 14px; border-bottom:1px solid var(--border); font-family:var(--font-mono); font-size:11.5px; color:var(--text-faint); background:var(--bg); }
+  .lesson-head i{ width:8px; height:8px; border-radius:50%; }
+  .lesson-head i:nth-child(1){ background:#e0605a; } .lesson-head i:nth-child(2){ background:#e0a95a; } .lesson-head i:nth-child(3){ background:#5ac48a; }
+  .lesson-body{ padding:18px 18px 20px; flex:1; display:flex; flex-direction:column; }
+  .lesson .tag{ align-self:flex-start; font-family:var(--font-mono); font-size:10.5px; padding:2px 8px; border-radius:10px; background:var(--accent-amber-soft); color:var(--accent-amber); margin-bottom:10px; }
+  .lesson p{ font-size:0.9rem; }
+  .before-after{ display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:auto; }
+  .ba{ border:1px solid var(--border); border-radius:6px; padding:9px 10px; background:var(--bg); }
+  .ba .k{ font-family:var(--font-mono); font-size:10px; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-faint); }
+  .ba .v{ font-family:var(--font-display); font-weight:700; font-size:1.15rem; }
+  .ba.bad .v{ color:var(--text-faint); text-decoration:line-through; text-decoration-thickness:1.5px; }
+  .ba.good .v{ color:var(--accent-blue); }
+  .ba .s{ font-size:0.76rem; color:var(--text-dim); line-height:1.35; }
+
+  .callout{ border:1px solid var(--border); border-left:3px solid var(--accent-amber); border-radius:6px; padding:14px 16px; background:var(--surface); color:var(--text-dim); font-size:0.95rem; margin:6px 0 18px; }
+  .callout b{ color:var(--text); }
+
+  .code-block{ font-family:var(--font-mono); font-size:12.5px; line-height:1.75; background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:18px 20px; color:var(--text-dim); overflow-x:auto; }
+  .code-block .k{ color:var(--accent-blue); } .code-block .s{ color:var(--green); } .code-block .n{ color:var(--accent-amber); } .code-block .c{ color:var(--text-faint); }
+
+  .figure{ border:1px solid var(--border); border-radius:8px; overflow:hidden; background:#fff; }
+  .figure figcaption{ font-family:var(--font-mono); font-size:11.5px; color:var(--text-faint); padding:8px 12px; border-top:1px solid var(--border); background:var(--surface); }
+
+  .next{ display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap; align-items:center; }
+  footer{ padding:36px 0 48px; text-align:center; font-family:var(--font-mono); font-size:12px; color:var(--text-faint); }
+
+  /* animation */
+  .anim{ opacity:0; transform:translateY(28px); transition:opacity .7s cubic-bezier(.2,.7,.2,1) var(--d,0ms), transform .7s cubic-bezier(.2,.7,.2,1) var(--d,0ms); }
+  .anim.from-left{ transform:translateX(-36px); }
+  .anim.zoom{ transform:translateY(30px) scale(.95); }
+  .anim.in{ opacity:1; transform:none; }
+  .dot-mark{ transition:transform .6s cubic-bezier(.2,.7,.2,1); }
+  .whisker{ transition:stroke-dashoffset .9s ease; }
+
+  @media (max-width: 860px){
+    .two, .lessons{ grid-template-columns:1fr; }
+    .meta-grid{ grid-template-columns:1fr 1fr; }
+  }
+  @media (max-width: 640px){
+    .wrap{ padding:0 16px; }
+    .panel-body{ padding:28px 20px; }
+    .file-header .path{ display:none; }
+    .tab-cta{ display:none; }
+    .pipeline{ flex-direction:column; }
+    .arrow{ flex-basis:22px; transform:rotate(90deg); }
+    .step{ min-width:0; }
+  }
+</style>
+</head>
+<body>
+<div class="progress" id="progress" aria-hidden="true"></div>
+
+<nav class="tabbar" aria-label="Case study navigation">
+  <div class="tabbar-inner">
+    <a class="tab-brand" href="../index.html">~/portfolio <span>$</span></a>
+    <a class="tab" href="../index.html#projects"><span class="dot"></span>← projects.py</a>
+    <a class="tab active" href="#top"><span class="dot"></span>lead_income_predictor.md</a>
+    <a class="tab-cta" href="https://www.linkedin.com/in/sanjibsamadder/" target="_blank" rel="noopener">hire_me()</a>
+  </div>
+</nav>
+
+<main class="wrap" id="top">
+  <div class="crumb"><a href="../index.html">portfolio</a> / <a href="../index.html#projects">projects</a> / lead-income-predictor</div>
+
+  <!-- ===== INTRO ===== -->
+  <section>
+    <div class="file-header"><div class="traffic"><i></i><i></i><i></i></div><span class="filename">case_study.md</span><span class="path">Machine Learning · Forecasting</span></div>
+    <div class="panel-body">
+      <div class="eyebrow">case study · supervised regression</div>
+      <h1>Lead &amp; Income Predictor<br><span class="accent">Forecasting returns before money is spent.</span></h1>
+      <p class="lede">A lead-buying business decided its monthly spend on each partner and offer largely by gut feel. I built a model that forecasts the leads, income and scrub cost a given spend should produce. I tested seven algorithms, documented three traps that would have made the results look better than they were, and deployed the winner as a live app.</p>
+
+      <div class="meta-grid">
+        <div><div class="k">Role</div><div class="v">Sole analyst: data → model → app</div></div>
+        <div><div class="k">Data</div><div class="v">9,796 rows · 53 months (2022–2026)</div></div>
+        <div><div class="k">Stack</div><div class="v">Python, scikit-learn, XGBoost, Streamlit</div></div>
+        <div><div class="k">Outcome</div><div class="v">Deployed forecasting app</div></div>
+      </div>
+
+      <div class="tiles" style="margin-bottom:28px">
+        <div class="tile hl"><div class="v">0.911</div><div class="l">Cross-validated R²</div><div class="n">Final gradient boosting model, 5-fold CV</div></div>
+        <div class="tile"><div class="v">±0.017</div><div class="l">CV standard deviation</div><div class="n">The most stable of the 7 models tested</div></div>
+        <div class="tile"><div class="v">0.909</div><div class="l">Holdout R²</div><div class="n">Within 0.002 of CV, so no lucky split</div></div>
+        <div class="tile"><div class="v">7</div><div class="l">Models compared</div><div class="n">From linear baseline to stacking ensemble</div></div>
+      </div>
+
+      <div class="btn-row">
+        <a class="btn btn-primary" href="https://ml-lead-income-cost-prediction-hgwny2t4lvp64uzfhamhmr.streamlit.app/" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v1.69a.75.75 0 0 0 1.5 0v-3.5a.75.75 0 0 0-.75-.75h-3.5a.75.75 0 0 0 0 1.5h1.69L6.22 8.72zM3.5 3A1.5 1.5 0 0 0 2 4.5v8A1.5 1.5 0 0 0 3.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-3a.75.75 0 0 0-1.5 0v3a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-8a.5.5 0 0 1 .5-.5h3a.75.75 0 0 0 0-1.5h-3z"/></svg>Try the live app</a>
+        <a class="btn btn-ghost" href="https://github.com/sanjibSamadder/ml-lead-income-cost-prediction" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8a8 8 0 0 0 5.47 7.59c.4.07.55-.17.55-.38v-1.49c-2.22.48-2.69-1.07-2.69-1.07-.36-.92-.89-1.16-.89-1.16-.72-.5.06-.49.06-.49.8.06 1.22.82 1.22.82.71 1.22 1.87.87 2.33.66.07-.52.28-.87.5-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.03 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.28.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.2c0 .21.15.46.55.38A8 8 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>Code &amp; notebook</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PROBLEM ===== -->
+  <section>
+    <div class="file-header"><div class="traffic"><i></i><i></i><i></i></div><span class="filename">01_problem.md</span><span class="path">why this mattered</span></div>
+    <div class="panel-body">
+      <div class="two">
+        <div>
+          <h2>The business problem</h2>
+          <p>The business <strong>buys leads from 77 partners</strong> across <strong>40 offers</strong>, screens out ("scrubs") the poor-quality ones, and sells the rest to buyers. Every month someone decides how much to spend on each partner-and-offer combination.</p>
+          <p>Those decisions were based on recent memory, not on a forecast. Nobody could say in advance: <em>"if we spend $X with this partner on this offer next month, what will we get back?"</em></p>
+        </div>
+        <div>
+          <h2>The question I set</h2>
+          <p>Given a <strong>partner</strong>, an <strong>offer</strong>, a planned <strong>spend</strong> and the <strong>month</strong>, predict three things at once:</p>
+          <ul class="clean">
+            <li><strong>Leads:</strong> how many leads the spend will buy</li>
+            <li><strong>Sum Income:</strong> what the business keeps after costs</li>
+            <li><strong>Sum Scrub Cost:</strong> how much will be lost on leads that fail screening</li>
+          </ul>
+          <div class="callout"><b>Constraint:</b> only use information that is known <em>before</em> the money is spent. This rule turned out to matter more than any choice of algorithm (see lesson 1).</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== DATA ===== -->
+  <section>
+    <div class="file-header"><div class="traffic"><i></i><i></i><i></i></div><span class="filename">02_data.py</span><span class="path">load → clean → aggregate</span></div>
+    <div class="panel-body">
+      <h2>Data &amp; preparation</h2>
+      <p class="sub">The data is real, anonymised monthly performance from Jan 2022 to May 2026. Partner and offer names are replaced with IDs; the numbers are real.</p>
+
+      <div class="tiles" style="margin-bottom:26px">
+        <div class="tile"><div class="v">9,796</div><div class="l">Raw rows</div></div>
+        <div class="tile"><div class="v">77</div><div class="l">Partners</div></div>
+        <div class="tile"><div class="v">40</div><div class="l">Offers</div></div>
+        <div class="tile"><div class="v">53</div><div class="l">Months</div></div>
+      </div>
+
+      <div class="pipeline" aria-label="Data preparation steps">
+        <div class="step"><div class="num">01</div><div class="t">Select</div><div class="d">Kept 13 of 25 columns</div></div>
+        <div class="arrow">→</div>
+        <div class="step"><div class="num">02</div><div class="t">Clean numbers</div><div class="d">Removed thousands separators ("1,485.33") so values weren't silently turned into missing values</div></div>
+        <div class="arrow">→</div>
+        <div class="step"><div class="num">03</div><div class="t">Aggregate</div><div class="d">Rolled up to monthly totals per partner and offer</div></div>
+        <div class="arrow">→</div>
+        <div class="step"><div class="num">04</div><div class="t">Filter</div><div class="d">Dropped 3 partners with fewer than 2 rows (too little to learn from)</div></div>
+        <div class="arrow">→</div>
+        <div class="step"><div class="num">05</div><div class="t">Split</div><div class="d">80/20 train/test (7,832 / 1,959 rows) plus 5-fold CV</div></div>
+      </div>
+
+      <div class="two" style="margin-top:26px">
+        <div>
+          <h3>What the exploration showed</h3>
+          <ul class="clean">
+            <li>Volume metrics move together strongly (r = 0.74 to 1.00). Spend and scrub cost correlate almost perfectly (r ≈ 1.00).</li>
+            <li>About 11% of rows are statistical outliers on every volume metric. These are real high-spend months, not errors, so I kept them.</li>
+            <li>Income depends on lead <em>quality</em>, which isn't in the data. I expected it to be the hardest target to predict, and it was.</li>
+          </ul>
+        </div>
+        <div>
+<pre class="code-block"><span class="c"># features known before spending</span>
+features = [<span class="s">"Sum Cost"</span>, <span class="s">"Partner"</span>, <span class="s">"Offer"</span>,
+            <span class="s">"Month"</span>, <span class="s">"Year"</span>]
+targets  = [<span class="s">"Leads"</span>, <span class="s">"Sum Income"</span>,
+            <span class="s">"Sum Scrub Cost"</span>]
+
+<span class="c"># one pipeline, three outputs</span>
+model = <span class="n">Pipeline</span>([
+    (<span class="s">"prep"</span>, <span class="n">ColumnTransformer</span>(...)),
+    (<span class="s">"gbm"</span>,  <span class="n">MultiOutputRegressor</span>(
+        <span class="n">GradientBoostingRegressor</span>()))
+])</pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== MODELS ===== -->
+  <section id="models">
+    <div class="file-header"><div class="traffic"><i></i><i></i><i></i></div><span class="filename">03_models.ipynb</span><span class="path">7 models · 5-fold CV + holdout</span></div>
+    <div class="panel-body">
+      <h2>Comparing seven models</h2>
+      <p class="sub">Every model was tuned with grid search and judged on two things: <strong>cross-validated R²</strong> (how accurate it is) and its <strong>spread across folds</strong> (how far that accuracy can be trusted). A single holdout score wasn't enough on its own (see lesson 3).</p>
+
+      <div class="chart-card" id="chartCard">
+        <div class="chart-head">
+          <div class="chart-title">Cross-validated R² by model</div>
+          <div class="chart-note">Dot = mean of 5 folds · line = ±1 standard deviation</div>
+        </div>
+        <div class="legend" aria-hidden="true">
+          <span><i style="background:var(--accent-blue)"></i>Selected model</span>
+          <span><i style="background:var(--mute-mark)"></i>Other models</span>
+          <span><b class="w"></b>±1 std across folds</span>
+        </div>
+        <svg id="modelChart" role="img" aria-labelledby="chartDesc">
+          <desc id="chartDesc">Dot-and-whisker chart of cross-validated R squared for seven models. Gradient Boosting is highest at 0.911 with the smallest spread, 0.017. Stacking 0.907, Random Forest 0.886, Decision Tree 0.876, XGBoost 0.856, Linear Regression 0.833, Lasso 0.829.</desc>
+        </svg>
+        <div class="tooltip" id="tooltip" role="status" aria-live="polite"></div>
+        <details class="table-view">
+          <summary>view as table</summary>
+          <div class="table-wrap">
+          <table>
+            <thead><tr><th>Model</th><th class="num">CV R²</th><th class="num">CV std</th><th class="num">Holdout R²</th><th>Verdict</th></tr></thead>
+            <tbody id="modelTable"></tbody>
+          </table>
+          </div>
+        </details>
+      </div>
+
+      <div class="callout" style="margin-top:22px"><b>Why gradient boosting won:</b> Stacking had a slightly better holdout score (0.912 vs 0.909), but a lower CV score (0.907) and a wider spread. Combining models added complexity without adding reliable accuracy, so I deployed the simpler model and kept stacking as a backup.</div>
+    </div>
+  </section>
+
+  <!-- ===== LESSONS ===== -->
+  <section>
+    <div class="file-header"><div class="traffic"><i></i><i></i><i></i></div><span class="filename">04_lessons.log</span><span class="path">grep -i "warning"</span></div>
+    <div class="panel-body">
+      <h2>Three traps I caught</h2>
+      <p class="sub">Each of these would have produced a better-looking number that the business couldn't actually rely on. All three are kept in the notebook so a reviewer can see how I caught them.</p>
+
+      <div class="lessons">
+        <article class="lesson">
+          <div class="lesson-head"><i></i><i></i><i></i>decision_tree.py</div>
+          <div class="lesson-body">
+            <span class="tag">1 · data leakage</span>
+            <h3>Using a number you don't have yet</h3>
+            <p>An early tree used <code>Sum Scrub Cost</code> as an input. It took 88% of the model's feature importance. But scrub cost is only known about a month <em>after</em> the leads arrive, so at the moment of the spending decision the model would be relying on a number nobody has.</p>
+            <div class="before-after">
+              <div class="ba bad"><div class="k">With leak</div><div class="v">88%</div><div class="s">importance on one leaked column</div></div>
+              <div class="ba good"><div class="k">Fixed</div><div class="v">0.876</div><div class="s">honest CV R², still beats linear</div></div>
+            </div>
+          </div>
+        </article>
+
+        <article class="lesson">
+          <div class="lesson-head"><i></i><i></i><i></i>lasso.py</div>
+          <div class="lesson-body">
+            <span class="tag">2 · over-regularisation</span>
+            <h3>A model that ignored partners</h3>
+            <p>An aggressive Lasso search shrank every coefficient except spend to zero. The model gave <strong>identical predictions for every partner and offer</strong>, which is useless for this decision. I narrowed the search range and checked that partner and offer coefficients survived.</p>
+            <div class="before-after">
+              <div class="ba bad"><div class="k">Collapsed</div><div class="v">1</div><div class="s">feature left in use</div></div>
+              <div class="ba good"><div class="k">Fixed</div><div class="v">α = 1</div><div class="s">partner &amp; offer effects kept</div></div>
+            </div>
+          </div>
+        </article>
+
+        <article class="lesson">
+          <div class="lesson-head"><i></i><i></i><i></i>xgboost.py</div>
+          <div class="lesson-body">
+            <span class="tag">3 · lucky split</span>
+            <h3>The holdout score that lied</h3>
+            <p>One XGBoost run scored <strong>0.917</strong> on the holdout set, the best of any model. Cross-validation on the same setup gave <strong>0.766</strong>. The single split had simply been favourable. From then on I compared every model on CV and holdout scores side by side.</p>
+            <div class="before-after">
+              <div class="ba bad"><div class="k">Holdout</div><div class="v">0.917</div><div class="s">one favourable split</div></div>
+              <div class="ba good"><div class="k">5-fold CV</div><div class="v">0.766</div><div class="s">the real picture: gap 0.151</div></div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== RESULTS ===== -->
+  <section>
+    <div class="file-header"><div class="traffic"><i></i><i></i><i></i></div><span class="filename">05_results.py</span><span class="path">final model · holdout set</span></div>
+    <div class="panel-body">
+      <h2>How well the final model forecasts</h2>
+      <p class="sub">Per-target accuracy of gradient boosting on the 1,959 held-out rows. MAE is the typical size of an error, in the target's own units.</p>
+      <div class="tiles">
+        <div class="tile"><div class="v">0.979</div><div class="l">Scrub cost · R²</div><div class="n">Typical error <strong>±$6.40</strong>. Scrub cost tracks spend closely.</div></div>
+        <div class="tile"><div class="v">0.950</div><div class="l">Leads · R²</div><div class="n">Typical error <strong>±16.9 leads</strong>, up from 0.694 with the linear baseline</div></div>
+        <div class="tile"><div class="v">0.796</div><div class="l">Income · R²</div><div class="n">Typical error <strong>±$131.78</strong>. Hardest, because it depends on lead quality the data doesn't capture.</div></div>
+      </div>
+
+      <div class="two" style="margin-top:30px">
+        <div>
+          <h3>What the model found</h3>
+          <ul class="clean">
+            <li><strong>Spend is the dominant driver</strong> of all three outcomes. How much you put in explains most of what comes out.</li>
+            <li><strong>One partner (Partner_59) stood out:</strong> it had a strong, consistent effect on lead volume across several independent models, so it's a real pattern, not a quirk of one model.</li>
+            <li><strong>Income is the weak spot:</strong> every model struggled with it, which points to a missing <em>quality</em> signal rather than a modelling problem.</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Where not to trust it</h3>
+          <ul class="clean">
+            <li>Partner and offer pairs with very little history.</li>
+            <li>Spend levels far outside anything seen in 2022–2026. Tree models don't extrapolate beyond the range they were trained on.</li>
+            <li>R² and MAE describe average performance, not certainty for any single forecast. The app supports human judgement; it doesn't replace it.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== DEPLOY ===== -->
+  <section>
+    <div class="file-header"><div class="traffic"><i></i><i></i><i></i></div><span class="filename">06_deploy.sh</span><span class="path">streamlit run app.py</span></div>
+    <div class="panel-body">
+      <div class="two">
+        <div>
+          <h2>From notebook to tool</h2>
+          <p>The trained pipeline is saved together with the lists of known partners and offers, and served through a <strong>Streamlit app</strong>. A planner picks a partner and offer, enters a budget and month, and gets back expected leads, income and scrub cost. It's a forecast before spending, instead of a review after.</p>
+          <p>The app only offers partners and offers it was trained on, so it can't be asked to guess for an unknown combination.</p>
+          <div class="btn-row" style="margin-top:18px">
+            <a class="btn btn-primary" href="https://ml-lead-income-cost-prediction-hgwny2t4lvp64uzfhamhmr.streamlit.app/" target="_blank" rel="noopener">Open the app →</a>
+          </div>
+        </div>
+        <figure class="figure">
+          <img src="../assets/lead-predictor.jpg" alt="Concept illustration: raw leads go through a model and come out as insight" width="1376" height="768">
+          <figcaption>raw leads → model → forecast</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== NEXT ===== -->
+  <section>
+    <div class="file-header"><div class="traffic"><i></i><i></i><i></i></div><span class="filename">07_next.md</span><span class="path">TODO</span></div>
+    <div class="panel-body">
+      <h2>If I took it further</h2>
+      <ul class="clean">
+        <li>Add a <strong>lead-quality signal</strong> (conversion history by partner) to lift income accuracy above 0.80.</li>
+        <li>Return <strong>prediction intervals</strong> (quantile gradient boosting) so the app shows a range, not just one number.</li>
+        <li>Switch to a <strong>time-based split</strong> to test how the model holds up month to month as partners change.</li>
+      </ul>
+      <div class="next" style="margin-top:26px">
+        <a class="btn btn-ghost" href="../index.html#projects">← back to all projects</a>
+        <a class="btn btn-ghost" href="../assets/Sanjib_Samadder_CV.pdf" download>download_cv() ↓</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">© <span id="year">2026</span> Sanjib Samadder · <a href="../index.html" style="color:var(--accent-blue)">sanjibsamadder.github.io</a></div>
+</footer>
+
+<script>
+(() => {
+  document.getElementById('year').textContent = new Date().getFullYear();
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // ---- data (from the project notebook) ----
+  const models = [
+    { name:'Gradient Boosting', r2:0.911, sd:0.017, hold:0.909, verdict:'Selected: highest CV R², tightest spread', sel:true },
+    { name:'Stacking Ensemble', r2:0.907, sd:0.021, hold:0.912, verdict:'Backup: no gain over GBM alone' },
+    { name:'Random Forest',     r2:0.886, sd:0.033, hold:0.888, verdict:'Stable, but outperformed' },
+    { name:'Decision Tree',     r2:0.876, sd:0.023, hold:0.875, verdict:'Leak removed; weakest on income' },
+    { name:'XGBoost',           r2:0.856, sd:0.035, hold:0.854, verdict:'Sensitive to hyperparameters (one run: 0.917 → 0.766)' },
+    { name:'Linear Regression', r2:0.833, sd:0.044, hold:0.823, verdict:'Baseline: misses nonlinear effects' },
+    { name:'Lasso',             r2:0.829, sd:0.046, hold:0.820, verdict:'No gain over linear' },
+  ];
+
+  // table view
+  document.getElementById('modelTable').innerHTML = models.map(m =>
+    `<tr class="${m.sel ? 'sel' : ''}"><td>${m.name}</td><td class="num">${m.r2.toFixed(3)}</td><td class="num">±${m.sd.toFixed(3)}</td><td class="num">${m.hold.toFixed(3)}</td><td>${m.verdict}</td></tr>`).join('');
+
+  // ---- dot & whisker chart (responsive: redrawn at the container's real width) ----
+  const svg = document.getElementById('modelChart');
+  const NS = 'http://www.w3.org/2000/svg';
+  const tip = document.getElementById('tooltip'), card = document.getElementById('chartCard');
+  const xMin = 0.75, xMax = 0.95;
+  let marks = [], animated = reduce;
+  const el = (tag, attrs, parent = svg) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); parent.appendChild(e); return e; };
+
+  function showTip(m, evt, g){
+    tip.innerHTML = `<div class="tt-name">${m.name}</div>
+      <div class="tt-row"><span>CV R²</span><span>${m.r2.toFixed(3)}</span></div>
+      <div class="tt-row"><span>CV std</span><span>±${m.sd.toFixed(3)}</span></div>
+      <div class="tt-row"><span>Holdout R²</span><span>${m.hold.toFixed(3)}</span></div>
+      <div class="tt-verdict">${m.verdict}</div>`;
+    const cr = card.getBoundingClientRect();
+    let px, py;
+    if (evt) { px = evt.clientX - cr.left + 14; py = evt.clientY - cr.top + 14; }
+    else { const r = g.getBoundingClientRect(); px = r.left - cr.left + r.width * 0.45; py = r.bottom - cr.top + 4; }
+    px = Math.max(8, Math.min(px, cr.width - 220));
+    tip.style.left = px + 'px'; tip.style.top = py + 'px';
+    tip.classList.add('show');
+  }
+  const hideTip = () => tip.classList.remove('show');
+
+  function draw(){
+    const W = Math.max(300, svg.parentElement.clientWidth - 44);
+    const small = W < 560;
+    const padL = small ? 112 : 170, padR = small ? 46 : 70, padT = 10, padB = 42;
+    const rowH = small ? 40 : 44;
+    const H = padT + padB + rowH * models.length;
+    const fs = small ? 12 : 13.5;
+    svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+    svg.setAttribute('width', W); svg.setAttribute('height', H);
+    svg.querySelectorAll(':scope > :not(desc)').forEach(n => n.remove());
+    const x = v => padL + (v - xMin) / (xMax - xMin) * (W - padL - padR);
+
+    const ticks = small ? [0.75, 0.85, 0.95] : [0.75, 0.80, 0.85, 0.90, 0.95];
+    ticks.forEach(v => {
+      el('line', { x1:x(v), x2:x(v), y1:padT, y2:H - padB, stroke:'rgba(17,20,24,0.08)', 'stroke-width':1 });
+      el('text', { x:x(v), y:H - padB + 18, 'text-anchor':'middle', 'font-size':12, fill:'#7A8494' }).textContent = v.toFixed(2);
+    });
+    el('text', { x:(padL + W - padR) / 2, y:H - 4, 'text-anchor':'middle', 'font-size':12, fill:'#7A8494' }).textContent = 'Cross-validated R² (axis starts at 0.75)';
+
+    const short = { 'Gradient Boosting':'Gradient Boost.', 'Stacking Ensemble':'Stacking', 'Linear Regression':'Linear Reg.', 'Random Forest':'Random Forest', 'Decision Tree':'Decision Tree' };
+    marks = [];
+    models.forEach((m, i) => {
+      const cy = padT + rowH * i + rowH / 2;
+      const color = m.sel ? '#1D5FD6' : '#8A93A3';
+      const g = el('g', { class:'row-hit', tabindex:0, 'aria-label':`${m.name}: CV R² ${m.r2}, std ${m.sd}` });
+      el('rect', { class:'row-bg', x:0, y:cy - rowH / 2, width:W, height:rowH, fill:'#ffffff', 'fill-opacity':0.001, rx:4 }, g);
+      el('text', { x:padL - 12, y:cy + 4, 'text-anchor':'end', 'font-size':fs, fill: m.sel ? '#111418' : '#4B5563', 'font-weight': m.sel ? 600 : 400 }, g)
+        .textContent = small ? (short[m.name] || m.name) : m.name;
+      const len = x(m.r2 + m.sd) - x(m.r2 - m.sd);
+      const wh = el('line', { class:'whisker', x1:x(m.r2 - m.sd), x2:x(m.r2 + m.sd), y1:cy, y2:cy, stroke:color, 'stroke-width':2, 'stroke-linecap':'round',
+        'stroke-dasharray':len, 'stroke-dashoffset': animated ? 0 : len }, g);
+      [m.r2 - m.sd, m.r2 + m.sd].forEach(v => el('line', { x1:x(v), x2:x(v), y1:cy - 5, y2:cy + 5, stroke:color, 'stroke-width':2, 'stroke-linecap':'round' }, g));
+      const dot = el('circle', { class:'dot-mark', cx:x(m.r2), cy, r: m.sel ? 7 : 5.5, fill:color, stroke:'#fff', 'stroke-width':2 }, g);
+      if (!animated) dot.style.transform = `translateX(${x(xMin) - x(m.r2)}px)`;
+      el('text', { x:x(m.r2 + m.sd) + 8, y:cy + 4, 'font-size':12, fill: m.sel ? '#111418' : '#7A8494', 'font-weight': m.sel ? 600 : 400, 'font-family':'JetBrains Mono, monospace' }, g)
+        .textContent = m.r2.toFixed(3);
+      g.addEventListener('mousemove', e => showTip(m, e, g));
+      g.addEventListener('mouseleave', hideTip);
+      g.addEventListener('focus', () => showTip(m, null, g));
+      g.addEventListener('blur', hideTip);
+      g.addEventListener('click', e => showTip(m, e, g));
+      marks.push({ wh, dot, i });
+    });
+  }
+  function play(){
+    marks.forEach(({ wh, dot, i }) => setTimeout(() => { dot.style.transform = 'translateX(0)'; wh.setAttribute('stroke-dashoffset', 0); }, i * 110));
+    animated = true;
+  }
+  draw();
+  let rT; window.addEventListener('resize', () => { clearTimeout(rT); rT = setTimeout(() => { hideTip(); draw(); }, 150); });
+  if (!reduce) {
+    const chartObs = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { play(); chartObs.disconnect(); } }), { threshold: 0.3 });
+    chartObs.observe(svg);
+  }
+
+  // ---- scroll reveal + progress ----
+  if (!reduce) {
+    const obs = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); } }), { threshold:0, rootMargin:'0px 0px -10% 0px' });
+    const prep = (sel, variant, step, cap) => {
+      const groups = new Map();
+      document.querySelectorAll(sel).forEach(n => {
+        const i = groups.get(n.parentElement) || 0; groups.set(n.parentElement, i + 1);
+        n.classList.add('anim'); if (variant) n.classList.add(variant);
+        n.style.setProperty('--d', Math.min(i * step, cap) + 'ms'); obs.observe(n);
+      });
+    };
+    prep('section .file-header', 'from-left', 0, 0);
+    prep('section .panel-body', '', 0, 0);
+    prep('.tile', 'zoom', 90, 400);
+    prep('.step', '', 90, 500);
+    prep('.lesson', 'zoom', 130, 300);
+    prep('ul.clean li', 'from-left', 80, 400);
+  }
+  const progress = document.getElementById('progress');
+  let ticking = false;
+  window.addEventListener('scroll', () => {
+    if (ticking) return; ticking = true;
+    requestAnimationFrame(() => {
+      const max = document.documentElement.scrollHeight - innerHeight;
+      progress.style.transform = `scaleX(${max > 0 ? scrollY / max : 0})`;
+      ticking = false;
+    });
+  }, { passive:true });
+})();
+</script>
+</body>
+</html>

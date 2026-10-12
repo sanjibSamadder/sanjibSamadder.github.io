@@ -22,6 +22,8 @@ Each section is styled as a file in a code editor (`hero.py`, `about.md`, `skill
 - **Animated hero**: a `<canvas>` scatter plot with a regression line that draws itself on load.
 - **Filterable project gallery**: switch between *Machine Learning*, *Data Analysis*, *Dashboards* and *Statistics (R)* without a page reload.
 - **Image lightbox**: click any project screenshot to enlarge it.
+- **Case study page**: a full write-up of the Lead & Income Predictor, with an interactive model-comparison chart.
+- **CV download** and **SEO basics**: favicon, link-preview image, structured data, sitemap.
 - **Scroll animations**: a reading-progress bar, staggered reveals for cards, chips and timeline entries, a timeline line that draws as you scroll, and hero parallax.
 - **Scroll-aware navigation**: the active tab updates as you scroll (via `IntersectionObserver`).
 - **Responsive**: works from large desktop screens down to phones.
@@ -42,8 +44,12 @@ Each section is styled as a file in a code editor (`hero.py`, `about.md`, `skill
 
 ```
 .
-├── index.html      # The entire site: markup, styles and scripts
-├── assets/         # Profile photo and project screenshots
+├── index.html                         # Main page: markup, styles and scripts
+├── projects/
+│   └── lead-income-predictor.html     # Case study page
+├── assets/                            # Photo, project screenshots, CV, link-preview image
+├── favicon.svg, favicon-32.png, apple-touch-icon.png
+├── sitemap.xml, robots.txt            # For search engines
 └── README.md
 ```
 

@@ -5,9 +5,34 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Sanjib Samadder — The Storyteller</title>
 <meta name="description" content="Portfolio of Sanjib Samadder: data scientist and analyst. Machine learning, SQL, Excel and Power BI projects, each with real results.">
+<link rel="canonical" href="https://sanjibsamadder.github.io/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://sanjibsamadder.github.io/">
 <meta property="og:title" content="Sanjib Samadder — Data Scientist / Data Analyst">
 <meta property="og:description" content="Machine learning, SQL, Excel and Power BI projects, each with real results.">
-<meta property="og:image" content="https://sanjibsamadder.github.io/assets/profile.webp">
+<meta property="og:image" content="https://sanjibsamadder.github.io/assets/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="author" content="Sanjib Samadder">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="theme-color" content="#1D5FD6">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Sanjib Samadder",
+  "url": "https://sanjibsamadder.github.io/",
+  "image": "https://sanjibsamadder.github.io/assets/og-image.jpg",
+  "jobTitle": "Data Scientist / Data Analyst",
+  "email": "mailto:skilled.sanjib@gmail.com",
+  "alumniOf": "University of Leicester",
+  "knowsAbout": ["Machine learning", "Data analysis", "SQL", "Python", "Power BI", "Statistics"],
+  "sameAs": ["https://github.com/sanjibSamadder", "https://www.linkedin.com/in/sanjibsamadder/"]
+}
+</script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -345,6 +370,8 @@
     display:flex; align-items:center; gap:6px; transition:color .15s ease;
   }
   .project-links a:hover{ color:var(--accent-amber); }
+  .project-links a.case-link{ color:#fff; background:var(--accent-blue); padding:6px 12px; border-radius:6px; font-weight:600; }
+  .project-links a.case-link:hover{ background:#164FB5; color:#fff; }
   .project-links svg{ width:14px; height:14px; }
   .more-row{ margin-top:28px; text-align:center; }
 
@@ -504,6 +531,7 @@
           <p class="lead">Data scientist and analyst with 9+ years of turning messy, real-world data into models, dashboards and decisions. Currently an MSc Data Science student at the University of Leicester and a Research Assistant at SAFE Technologia.</p>
           <div class="hero-actions">
             <a class="btn btn-primary" href="#projects">View projects</a>
+            <a class="btn btn-ghost" href="assets/Sanjib_Samadder_CV.pdf" download="Sanjib_Samadder_CV.pdf"><svg viewBox="0 0 16 16" fill="currentColor" width="14" height="14"><path d="M7.47 10.78a.75.75 0 0 0 1.06 0l3.75-3.75a.75.75 0 0 0-1.06-1.06L8.75 8.44V1.75a.75.75 0 0 0-1.5 0v6.69L4.78 5.97a.75.75 0 0 0-1.06 1.06l3.75 3.75ZM3.75 13a.75.75 0 0 0 0 1.5h8.5a.75.75 0 0 0 0-1.5h-8.5Z"/></svg>download_cv()</a>
             <a class="btn btn-ghost" href="#contact">Get in touch</a>
           </div>
           <div class="hero-stats">
@@ -686,7 +714,7 @@
             <img src="assets/lead-predictor.jpg" alt="Lead and Income Predictor project banner"><span class="zoom">⤢ enlarge</span>
           </button>
           <div class="card-main">
-            <div class="project-card-head"><i></i><i></i><i></i><span class="fname">lead_prediction.py</span><span class="cat-badge">★ Featured · ML</span></div>
+            <div class="project-card-head"><i></i><i></i><i></i><span class="fname">lead_prediction.py</span><span class="cat-badge">★ Featured · case study</span></div>
             <div class="project-card-body">
               <h3>Lead &amp; Income Predictor: Gradient Boosting + Streamlit App</h3>
               <p>Predicts monthly leads, income and scrub cost for each partner and offer before money is committed, replacing gut-feel budgeting with a data-backed forecast. I compared seven models with cross-validation and deployed the winner as a live Streamlit app.</p>
@@ -698,6 +726,7 @@
               <div class="spacer"></div>
               <div class="tag-row"><span class="tag">scikit-learn</span><span class="tag">Gradient Boosting</span><span class="tag">XGBoost</span><span class="tag">Stacking</span><span class="tag">Streamlit</span></div>
               <div class="project-links">
+                <a class="case-link" href="projects/lead-income-predictor.html"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M0 1.75A.75.75 0 0 1 .75 1h4.253c1.227 0 2.317.59 3 1.501A3.743 3.743 0 0 1 11.006 1h4.245a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75h-4.507a2.25 2.25 0 0 0-1.591.659l-.622.621a.75.75 0 0 1-1.06 0l-.622-.621A2.25 2.25 0 0 0 5.258 13H.75a.75.75 0 0 1-.75-.75Zm7.251 10.324.004-5.073-.002-2.253A2.25 2.25 0 0 0 5.003 2.5H1.5v9h3.757a3.75 3.75 0 0 1 1.994.574ZM8.755 4.75l-.004 7.322a3.752 3.752 0 0 1 1.992-.572H14.5v-9h-3.495a2.25 2.25 0 0 0-2.25 2.25Z"/></svg>Read case study →</a>
                 <a href="https://github.com/sanjibSamadder/ml-lead-income-cost-prediction" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8a8 8 0 0 0 5.47 7.59c.4.07.55-.17.55-.38v-1.49c-2.22.48-2.69-1.07-2.69-1.07-.36-.92-.89-1.16-.89-1.16-.72-.5.06-.49.06-.49.8.06 1.22.82 1.22.82.71 1.22 1.87.87 2.33.66.07-.52.28-.87.5-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.03 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.28.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.2c0 .21.15.46.55.38A8 8 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>Code</a>
                 <a href="https://ml-lead-income-cost-prediction-hgwny2t4lvp64uzfhamhmr.streamlit.app/" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v1.69a.75.75 0 0 0 1.5 0v-3.5a.75.75 0 0 0-.75-.75h-3.5a.75.75 0 0 0 0 1.5h1.69L6.22 8.72zM3.5 3A1.5 1.5 0 0 0 2 4.5v8A1.5 1.5 0 0 0 3.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-3a.75.75 0 0 0-1.5 0v3a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-8a.5.5 0 0 1 .5-.5h3a.75.75 0 0 0 0-1.5h-3z"/></svg>Live app</a>
               </div>
@@ -888,6 +917,10 @@
             <a class="contact-link" href="https://github.com/sanjibSamadder" target="_blank" rel="noopener">
               <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8a8 8 0 0 0 5.47 7.59c.4.07.55-.17.55-.38v-1.49c-2.22.48-2.69-1.07-2.69-1.07-.36-.92-.89-1.16-.89-1.16-.72-.5.06-.49.06-.49.8.06 1.22.82 1.22.82.71 1.22 1.87.87 2.33.66.07-.52.28-.87.5-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.03 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.28.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.2c0 .21.15.46.55.38A8 8 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
               github.com/sanjibSamadder
+            </a>
+            <a class="contact-link" href="assets/Sanjib_Samadder_CV.pdf" download="Sanjib_Samadder_CV.pdf">
+              <svg viewBox="0 0 16 16" fill="currentColor"><path d="M7.47 10.78a.75.75 0 0 0 1.06 0l3.75-3.75a.75.75 0 0 0-1.06-1.06L8.75 8.44V1.75a.75.75 0 0 0-1.5 0v6.69L4.78 5.97a.75.75 0 0 0-1.06 1.06l3.75 3.75ZM3.75 13a.75.75 0 0 0 0 1.5h8.5a.75.75 0 0 0 0-1.5h-8.5Z"/></svg>
+              Download CV (PDF)
             </a>
             <a class="contact-link" href="https://linkedin.com/in/sanjibsamadder/" target="_blank" rel="noopener">
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-.95 1.83-1.95 3.77-1.95 4.03 0 4.78 2.5 4.78 5.75V21h-4v-5.6c0-1.34-.02-3.07-1.87-3.07-1.87 0-2.16 1.46-2.16 2.97V21H9z"/></svg>
