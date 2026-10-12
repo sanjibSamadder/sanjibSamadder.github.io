@@ -14,7 +14,7 @@
 
 I'm a data analyst and data scientist with around nine years of experience across finance, manufacturing and research consultancy, and a freelancer on Upwork. This site brings together selected projects, my technical stack and contact details in one place.
 
-Each section is styled as a file in a code editor (`hero.py`, `about.md`, `experience.log`, `projects.py`, `skills.py`, `contact.py`), and each project card looks like a notebook or script window.
+Each section is styled as a file in a code editor (`hero.py`, `about.md`, `skills.py`, `experience.log`, `projects.py`, `contact.py`), and each project card looks like a notebook or script window.
 
 ## Features
 
@@ -22,6 +22,7 @@ Each section is styled as a file in a code editor (`hero.py`, `about.md`, `exper
 - **Animated hero**: a `<canvas>` scatter plot with a regression line that draws itself on load.
 - **Filterable project gallery**: switch between *Machine Learning*, *Data Analysis*, *Dashboards* and *Statistics (R)* without a page reload.
 - **Image lightbox**: click any project screenshot to enlarge it.
+- **Scroll animations**: a reading-progress bar, staggered reveals for cards, chips and timeline entries, a timeline line that draws as you scroll, and hero parallax.
 - **Scroll-aware navigation**: the active tab updates as you scroll (via `IntersectionObserver`).
 - **Responsive**: works from large desktop screens down to phones.
 - **Accessible**: visible focus states, ARIA roles on the filter tabs and `prefers-reduced-motion` support.

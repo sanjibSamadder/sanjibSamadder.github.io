@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Sanjib Samadder — The Storyteller</title>
 <meta name="description" content="Portfolio of Sanjib Samadder: data scientist and analyst. Machine learning, SQL, Excel and Power BI projects, each with real results.">
-<meta property="og:title" content="Sanjib Samadder — Data Scientist &amp; Analyst">
+<meta property="og:title" content="Sanjib Samadder — Data Scientist / Data Analyst">
 <meta property="og:description" content="Machine learning, SQL, Excel and Power BI projects, each with real results.">
-<meta property="og:image" content="assets/profile.jpg">
+<meta property="og:image" content="https://sanjibsamadder.github.io/assets/profile.webp">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -40,6 +40,7 @@
     html{ scroll-behavior:auto; }
     *{ animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important; }
   }
+  html, body{ overflow-x:clip; }
   body{
     background:var(--bg);
     color:var(--text);
@@ -168,7 +169,7 @@
 
   .hero-photo{ position:relative; z-index:2; justify-self:end; }
   .photo-frame{
-    width:250px; border:1px solid var(--border-hi); border-radius:var(--radius);
+    width:280px; border:1px solid var(--border-hi); border-radius:var(--radius);
     background:var(--bg); overflow:hidden; box-shadow:0 12px 32px rgba(17,20,24,0.12);
   }
   .photo-frame .bar{
@@ -180,12 +181,27 @@
   .photo-frame .bar i:nth-child(1){ background:#e0605a; }
   .photo-frame .bar i:nth-child(2){ background:#e0a95a; }
   .photo-frame .bar i:nth-child(3){ background:#5ac48a; }
-  .photo-frame img{ width:100%; height:auto; aspect-ratio:4/5; object-fit:cover; object-position:center 20%; }
+  .photo-stage{
+    position:relative; aspect-ratio:4/5; overflow:hidden;
+    background:
+      radial-gradient(circle at 50% 42%, rgba(29,95,214,0.20) 0, rgba(29,95,214,0.08) 38%, transparent 62%),
+      linear-gradient(rgba(17,20,24,0.05) 1px, transparent 1px) 0 0/24px 24px,
+      linear-gradient(90deg, rgba(17,20,24,0.05) 1px, transparent 1px) 0 0/24px 24px,
+      var(--surface);
+  }
+  .photo-stage::after{
+    content:''; position:absolute; left:14%; right:14%; top:12%; aspect-ratio:1;
+    border:1px dashed rgba(181,105,10,0.45); border-radius:50%;
+    animation:spin 40s linear infinite; z-index:0;
+  }
+  @keyframes spin{ to{ transform:rotate(360deg); } }
+  .photo-stage img{ position:absolute; inset:auto 0 0 0; width:100%; height:100%; object-fit:contain; object-position:bottom center; z-index:1; }
   .photo-caption{
     font-family:var(--font-mono); font-size:11.5px; color:var(--text-dim);
     padding:10px 12px; border-top:1px solid var(--border); line-height:1.5;
   }
   .photo-caption b{ color:var(--accent-blue); font-weight:500; }
+  .photo-caption{ font-size:11px; }
 
   /* ---------- GENERIC SECTION ---------- */
   .section-pad{ padding:32px 0; }
@@ -383,9 +399,48 @@
     color:#fff; font-family:var(--font-mono); font-size:13px; padding:6px 12px; border-radius:6px; cursor:pointer;
   }
 
-  /* ---------- REVEAL ---------- */
-  .reveal{ opacity:0; transform:translateY(14px); transition:opacity .6s ease, transform .6s ease; }
-  .reveal.in{ opacity:1; transform:none; }
+  /* ---------- SCROLL ANIMATION ---------- */
+  .progress{
+    position:fixed; top:0; left:0; height:3px; width:100%; z-index:150;
+    background:linear-gradient(90deg, var(--accent-blue), var(--accent-amber));
+    transform-origin:0 50%; transform:scaleX(0);
+  }
+  .anim{
+    opacity:0; transform:translateY(32px);
+    transition:opacity .75s cubic-bezier(.2,.7,.2,1) var(--d,0ms), transform .75s cubic-bezier(.2,.7,.2,1) var(--d,0ms);
+    will-change:opacity, transform;
+  }
+  .anim.from-left{ transform:translateX(-40px); }
+  .anim.from-right{ transform:translateX(40px); }
+  .anim.zoom{ transform:translateY(36px) scale(.94); }
+  .anim.pop{ transform:translateY(10px) scale(.85); transition-duration:.45s; }
+  .anim.in{ opacity:1; transform:none; }
+  .project-card.anim.in:hover{ transform:translateY(-3px); transition-delay:0ms; }
+  .chip.anim.in:hover{ transform:translateY(-1px); transition-delay:0ms; }
+
+  .section-title{ position:relative; display:inline-block; }
+  .section-title::after{
+    content:''; position:absolute; left:0; bottom:-6px; height:2px; width:100%;
+    background:var(--accent-amber); transform:scaleX(0); transform-origin:0 50%;
+    transition:transform .9s cubic-bezier(.2,.7,.2,1) .25s;
+  }
+  .panel-body.in .section-title::after, .no-anim .section-title::after{ transform:scaleX(.35); }
+
+  .timeline::before{ transform-origin:50% 0; transform:scaleY(var(--tl, 1)); }
+  .tl-item::before{ transition:transform .4s ease, background .4s ease; }
+  .tl-item.anim.in::before{ animation:ping .9s ease var(--d,0ms) 1; }
+  @keyframes ping{ 0%{ transform:scale(.4); } 60%{ transform:scale(1.5); } 100%{ transform:scale(1); } }
+
+  .to-top{
+    position:fixed; right:20px; bottom:20px; z-index:120;
+    font-family:var(--font-mono); font-size:12px; padding:9px 13px; border-radius:6px;
+    background:var(--text); color:#fff; border:none; cursor:pointer;
+    opacity:0; transform:translateY(16px); pointer-events:none;
+    transition:opacity .3s ease, transform .3s ease, background .15s ease;
+  }
+  .to-top.show{ opacity:1; transform:none; pointer-events:auto; }
+  .to-top:hover{ background:var(--accent-blue); }
+  #plotCanvas, .hero-photo{ will-change:transform; }
 
   @media (max-width: 900px){
     .hero-canvas-wrap{ grid-template-columns:1fr; padding:44px 32px; }
@@ -406,7 +461,7 @@
     .hero-photo{ width:100%; }
     .photo-frame{ width:100%; display:grid; grid-template-columns:110px 1fr; grid-template-rows:auto 1fr; }
     .photo-frame .bar{ grid-column:1 / -1; }
-    .photo-frame img{ grid-row:2; }
+    .photo-stage{ grid-row:2; }
     .photo-caption{ border-top:none; border-left:1px solid var(--border); display:flex; flex-direction:column; justify-content:center; font-size:12px; }
     .hero-stats{ display:grid; grid-template-columns:1fr 1fr; gap:20px 18px; }
     .status-pill{ font-size:11px; }
@@ -414,6 +469,8 @@
 </style>
 </head>
 <body>
+<div class="progress" id="progress" aria-hidden="true"></div>
+<button class="to-top" id="toTop" aria-label="Back to top">↑ top</button>
 
 <!-- ============ TAB NAV ============ -->
 <nav class="tabbar" aria-label="Section navigation">
@@ -421,11 +478,11 @@
     <div class="tab-brand">~/portfolio <span>$</span></div>
     <a class="tab active" data-target="hero" href="#hero"><span class="dot"></span>hero.py</a>
     <a class="tab" data-target="about" href="#about"><span class="dot"></span>about.md</a>
+    <a class="tab" data-target="skills" href="#skills"><span class="dot"></span>skills.py</a>
     <a class="tab" data-target="experience" href="#experience"><span class="dot"></span>experience.log</a>
     <a class="tab" data-target="projects" href="#projects"><span class="dot"></span>projects.py</a>
-    <a class="tab" data-target="skills" href="#skills"><span class="dot"></span>skills.py</a>
     <a class="tab" data-target="contact" href="#contact"><span class="dot"></span>contact.py</a>
-    <a class="tab-cta" href="mailto:skilled.sanjib@gmail.com">hire_me()</a>
+    <a class="tab-cta" href="https://www.linkedin.com/in/sanjibsamadder/" target="_blank" rel="noopener">hire_me()</a>
   </div>
 </nav>
 
@@ -458,9 +515,9 @@
         </div>
         <div class="hero-photo">
           <div class="photo-frame">
-            <div class="bar"><i></i><i></i><i></i>&nbsp;profile.jpg</div>
-            <img src="assets/profile.jpg" alt="Portrait of Sanjib Samadder" width="600" height="800">
-            <div class="photo-caption"><b>location</b> = "UK"<br><b>role</b> = "Data Scientist"</div>
+            <div class="bar"><i></i><i></i><i></i>&nbsp;profile.png</div>
+            <div class="photo-stage"><img src="assets/profile.webp" alt="Portrait of Sanjib Samadder" width="691" height="900"></div>
+            <div class="photo-caption"><b>location</b> = "UK"<br><b>role</b> = "Data Scientist / Data Analyst"</div>
           </div>
         </div>
       </div>
@@ -469,7 +526,7 @@
 </section>
 
 <!-- ============ ABOUT ============ -->
-<section id="about" class="section-pad reveal">
+<section id="about" class="section-pad">
   <div class="wrap">
     <div class="file-header">
       <div class="traffic"><i></i><i></i><i></i></div>
@@ -487,7 +544,7 @@
         <div>
           <div class="comment"># profile.py</div>
 <pre class="code-block"><span class="k">class</span> <span class="n">Sanjib</span>:
-    role      = <span class="s">"Data Scientist &amp; Analyst"</span>
+    role      = <span class="s">"Data Scientist / Data Analyst"</span>
     based_in  = <span class="s">"United Kingdom"</span>
     studying  = <span class="s">"MSc Data Science, Leicester"</span>
     years     = <span class="n">9</span>
@@ -504,8 +561,49 @@
   </div>
 </section>
 
+<!-- ============ SKILLS ============ -->
+<section id="skills" class="section-pad">
+  <div class="wrap">
+    <div class="file-header">
+      <div class="traffic"><i></i><i></i><i></i></div>
+      <span class="filename">skills.py</span>
+      <span class="path">import stack</span>
+    </div>
+    <div class="panel-body">
+      <h2 class="section-title">Skills &amp; stack</h2>
+      <p class="section-sub">The tools I use most, grouped by the stage of a project where they come in. Each one shows up in the projects below.</p>
+      <div class="skill-groups">
+        <div>
+          <div class="skill-group-label">Languages</div>
+          <div class="chip-row"><span class="chip">Python</span><span class="chip">SQL</span><span class="chip">R</span><span class="chip">DAX</span></div>
+        </div>
+        <div>
+          <div class="skill-group-label">Machine learning</div>
+          <div class="chip-row"><span class="chip">scikit-learn</span><span class="chip">TensorFlow / Keras</span><span class="chip">PyTorch</span><span class="chip">XGBoost</span><span class="chip">Ensembles</span><span class="chip">Clustering</span></div>
+        </div>
+        <div>
+          <div class="skill-group-label">Statistics</div>
+          <div class="chip-row"><span class="chip">PCA / FPCA</span><span class="chip">Functional data analysis</span><span class="chip">Hypothesis testing</span><span class="chip">Forecasting</span><span class="chip">Bayesian optimisation</span></div>
+        </div>
+        <div>
+          <div class="skill-group-label">Data &amp; databases</div>
+          <div class="chip-row"><span class="chip">pandas</span><span class="chip">NumPy</span><span class="chip">PostgreSQL</span><span class="chip">Snowflake</span><span class="chip">dbt</span><span class="chip">Power Query</span></div>
+        </div>
+        <div>
+          <div class="skill-group-label">BI &amp; visualisation</div>
+          <div class="chip-row"><span class="chip">Power BI</span><span class="chip">Excel</span><span class="chip">Tableau</span><span class="chip">Looker</span><span class="chip">Matplotlib</span></div>
+        </div>
+        <div>
+          <div class="skill-group-label">Deploy &amp; workflow</div>
+          <div class="chip-row"><span class="chip">Streamlit</span><span class="chip">Git / GitHub</span><span class="chip">Jupyter</span><span class="chip">RMarkdown</span><span class="chip">VBA</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ============ EXPERIENCE ============ -->
-<section id="experience" class="section-pad reveal">
+<section id="experience" class="section-pad">
   <div class="wrap">
     <div class="file-header">
       <div class="traffic"><i></i><i></i><i></i></div>
@@ -528,7 +626,7 @@
           <p>Built KPI frameworks and dashboards for a 15-property Chicago real estate portfolio, including DSCR tracking, chart-of-accounts structuring, SQL-based P&amp;L validation and cross-system reconciliation.</p>
         </div>
         <div class="tl-item">
-          <div class="tl-meta">Ongoing</div>
+          <div class="tl-meta">2023 – 2025 · Remote</div>
           <h3>Freelance Data Analyst <span>· Upwork, Top Rated Plus</span></h3>
           <p>100+ completed projects with a 5-star rating: Excel and Power BI dashboards, e-commerce reporting, data cleaning, forecasting and ML pipelines for clients across industries.</p>
         </div>
@@ -769,49 +867,8 @@
   </div>
 </section>
 
-<!-- ============ SKILLS ============ -->
-<section id="skills" class="section-pad reveal">
-  <div class="wrap">
-    <div class="file-header">
-      <div class="traffic"><i></i><i></i><i></i></div>
-      <span class="filename">skills.py</span>
-      <span class="path">import stack</span>
-    </div>
-    <div class="panel-body">
-      <h2 class="section-title">Skills &amp; stack</h2>
-      <p class="section-sub">The tools I use most, grouped by the stage of a project where they come in. Each one appears in the projects above.</p>
-      <div class="skill-groups">
-        <div>
-          <div class="skill-group-label">Languages</div>
-          <div class="chip-row"><span class="chip">Python</span><span class="chip">SQL</span><span class="chip">R</span><span class="chip">DAX</span></div>
-        </div>
-        <div>
-          <div class="skill-group-label">Machine learning</div>
-          <div class="chip-row"><span class="chip">scikit-learn</span><span class="chip">TensorFlow / Keras</span><span class="chip">PyTorch</span><span class="chip">XGBoost</span><span class="chip">Ensembles</span><span class="chip">Clustering</span></div>
-        </div>
-        <div>
-          <div class="skill-group-label">Statistics</div>
-          <div class="chip-row"><span class="chip">PCA / FPCA</span><span class="chip">Functional data analysis</span><span class="chip">Hypothesis testing</span><span class="chip">Forecasting</span><span class="chip">Bayesian optimisation</span></div>
-        </div>
-        <div>
-          <div class="skill-group-label">Data &amp; databases</div>
-          <div class="chip-row"><span class="chip">pandas</span><span class="chip">NumPy</span><span class="chip">PostgreSQL</span><span class="chip">Snowflake</span><span class="chip">dbt</span><span class="chip">Power Query</span></div>
-        </div>
-        <div>
-          <div class="skill-group-label">BI &amp; visualisation</div>
-          <div class="chip-row"><span class="chip">Power BI</span><span class="chip">Excel</span><span class="chip">Tableau</span><span class="chip">Looker</span><span class="chip">Matplotlib</span></div>
-        </div>
-        <div>
-          <div class="skill-group-label">Deploy &amp; workflow</div>
-          <div class="chip-row"><span class="chip">Streamlit</span><span class="chip">Git / GitHub</span><span class="chip">Jupyter</span><span class="chip">RMarkdown</span><span class="chip">VBA</span></div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- ============ CONTACT ============ -->
-<section id="contact" class="section-pad reveal">
+<section id="contact" class="section-pad">
   <div class="wrap">
     <div class="file-header">
       <div class="traffic"><i></i><i></i><i></i></div>
@@ -917,12 +974,90 @@
   }, { rootMargin: '-40% 0px -55% 0px', threshold: 0 });
   sections.forEach(s => s && observer.observe(s));
 
-  // ---- Reveal on scroll ----
+  // ---- Scroll animations ----
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const revealObs = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); revealObs.unobserve(e.target); } });
-  }, { threshold: 0.08 });
-  document.querySelectorAll('.reveal').forEach(el => prefersReducedMotion ? el.classList.add('in') : revealObs.observe(el));
+  const animObs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); animObs.unobserve(e.target); } });
+  }, { threshold: 0, rootMargin: '0px 0px -12% 0px' });
+
+  function prep(selector, variant, step, cap){
+    const groups = new Map();
+    document.querySelectorAll(selector).forEach(el => {
+      const parent = el.parentElement;
+      const i = groups.get(parent) || 0; groups.set(parent, i + 1);
+      el.classList.add('anim'); if (variant) el.classList.add(variant);
+      el.style.setProperty('--d', Math.min(i * step, cap) + 'ms');
+      animObs.observe(el);
+    });
+  }
+
+  if (prefersReducedMotion) {
+    document.body.classList.add('no-anim');
+  } else {
+    // hero entrance on load
+    const heroBits = ['.status-pill', '.hero-eyebrow', '.hero-content h1', '.hero-content .lead', '.hero-actions', '.hero-stats'];
+    heroBits.forEach((sel, i) => {
+      const el = document.querySelector(sel); if (!el) return;
+      el.classList.add('anim'); el.style.setProperty('--d', (120 + i * 110) + 'ms');
+    });
+    const photo = document.querySelector('.photo-frame');
+    photo.classList.add('anim', 'from-right'); photo.style.setProperty('--d', '350ms');
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      document.querySelectorAll('#hero .anim').forEach(el => el.classList.add('in'));
+    }));
+
+    prep('section:not(#hero) .file-header', 'from-left', 0, 0);
+    prep('section:not(#hero) .panel-body', '', 0, 0);
+    prep('.about-grid > *', '', 140, 300);
+    prep('.skill-groups > div', '', 90, 500);
+    prep('.chip', 'pop', 45, 400);
+    prep('.tl-item', 'from-left', 130, 600);
+    prep('.cred', 'zoom', 110, 400);
+    prep('.filter-btn', 'pop', 60, 400);
+    prep('.project-card', 'zoom', 110, 220);
+    prep('.contact-link', 'from-left', 100, 400);
+    prep('.terminal', 'from-right', 150, 150);
+    prep('.more-row', '', 0, 0);
+  }
+
+  // re-animate cards when filtering
+  filterBtns.forEach(btn => btn.addEventListener('click', () => {
+    if (prefersReducedMotion) return;
+    let i = 0;
+    projectCards.forEach(card => {
+      if (card.classList.contains('is-hidden')) return;
+      card.classList.remove('in');
+      card.style.setProperty('--d', Math.min(i++ * 80, 480) + 'ms');
+      void card.offsetWidth;
+      card.classList.add('in');
+    });
+  }));
+
+  // ---- Progress bar, parallax, timeline draw, back-to-top ----
+  const progress = document.getElementById('progress');
+  const toTop = document.getElementById('toTop');
+  const timeline = document.querySelector('.timeline');
+  const heroPhoto = document.querySelector('.hero-photo');
+  const plotEl = document.getElementById('plotCanvas');
+  let ticking = false;
+  function onScroll(){
+    const y = window.scrollY, max = document.documentElement.scrollHeight - innerHeight;
+    progress.style.transform = `scaleX(${max > 0 ? y / max : 0})`;
+    toTop.classList.toggle('show', y > innerHeight * 0.8);
+    if (!prefersReducedMotion) {
+      if (y < innerHeight * 1.2) {
+        plotEl.style.transform = `translateY(${y * 0.3}px)`;
+        if (innerWidth > 900) heroPhoto.style.transform = `translateY(${y * -0.08}px)`;
+      }
+      const r = timeline.getBoundingClientRect();
+      const p = Math.max(0, Math.min(1, (innerHeight * 0.75 - r.top) / r.height));
+      timeline.style.setProperty('--tl', p.toFixed(3));
+    }
+    ticking = false;
+  }
+  window.addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(onScroll); } }, { passive: true });
+  onScroll();
+  toTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: prefersReducedMotion ? 'auto' : 'smooth' }));
 
   // ---- Count-up stats ----
   if (!prefersReducedMotion) {
