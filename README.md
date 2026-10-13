@@ -114,6 +114,7 @@ If a deployment fails with an infrastructure or runner error rather than a probl
 | [Customer Segmentation: K-Means vs. DBSCAN vs. GMM](https://github.com/sanjibSamadder/customer-segmentation-kmeans-dbscan-gmm) | Machine Learning | scikit-learn, PCA |
 | [Retail Sales & Basket Analysis](https://github.com/sanjibSamadder/sql-retail-basket-analysis) | Data Analysis | PostgreSQL, pandas |
 | [Lead Margin Forecast & What-If Model](https://github.com/sanjibSamadder/lead-margin-forecast-whatif-excel) | Data Analysis | Excel, forecasting |
+| [Credit Risk Analytics & Scorecard](https://github.com/sanjibSamadder/credit-risk-analytics-excel) | Data Analysis | Excel, WoE / IV, what-if |
 | [Card Processing Performance Dashboard](https://github.com/sanjibSamadder/everyday-thai-card-processing-powerbi) | Dashboard | Power BI, DAX |
 | [Lead Performance Dashboard](https://github.com/sanjibSamadder/lead-performance-dashboard-excel) | Dashboard | Excel |
 | [Darwin Sea-Level Pressure FDA](https://github.com/sanjibSamadder/darwin_slp_fda) | Statistics | R, fda |
